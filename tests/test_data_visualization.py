@@ -4,8 +4,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pytest
 
+from py_simple_package.src.py_simple import plot_box_plot as public_plot_box_plot
 from py_simple_package.src.py_simple.easy_data_visualization import (
     _infer_type,
+    plot_box_plot,
     plot_data,
 )
 
@@ -89,6 +91,26 @@ def test_plot_data_empty_series_raises_value_error():
     with pytest.raises(ValueError, match="The series cannot be empty."):
         plot_data([])
 
+
+# --- Tests for plot_box_plot ---
+
+
+def test_plot_box_plot_creates_box_plot():
+    plot_box_plot([12, 14, 15, 15, 16, 18, 30])
+
+    ax = plt.gca()
+    assert ax.get_title() == "Box plot"
+    assert ax.get_ylabel() == "Values"
+    assert len(ax.lines) > 0
+
+
+def test_plot_box_plot_empty_series_raises_value_error():
+    with pytest.raises(ValueError, match="The data series cannot be empty."):
+        plot_box_plot([])
+
+
+def test_plot_box_plot_is_available_from_public_api():
+    assert public_plot_box_plot is plot_box_plot
 import pytest
 from py_simple.easy_data_visualization import get_data_range
 
