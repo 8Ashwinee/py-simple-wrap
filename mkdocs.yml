@@ -24,6 +24,7 @@ plugins:
             show_root_heading: true
 
 markdown_extensions:
+  - md_in_html
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.superfences

@@ -3,13 +3,14 @@ py_simple's public API — re-exports the functions from each easy_* module.
 """
 
 from .easy_ai import (
+    EasyAIError,
+    ai_chat,
     ask_ai,
-    detect_language,
-    detect_language,
     detect_language,
     get_model,
     summarize_text,
     translate_text,
+    rewrite_text,
 )
 from .easy_archive import (
     add_to_zip,
@@ -140,6 +141,7 @@ from .easy_generator import (
     generate_api_key,
     generate_otp,
     generate_password,
+    generate_pin,
     generate_qr_code,
     generate_slug,
     generate_uuid,
