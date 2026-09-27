@@ -371,6 +371,45 @@ def run_with_delay(delay: float | int, func, *args, **kwargs):
     return func(*args, **kwargs)
 
 
+def run_if(condition: bool, func, *args, default_value=None, **kwargs):
+    """
+    Runs a function only when a condition is true.
+
+    Args:
+        condition (bool): Whether to run the function.
+        func (callable): The function to execute when condition is True.
+        *args: Positional arguments to pass to the function.
+        default_value (Any, optional): Value to return when condition is
+            False. Defaults to None.
+        **kwargs: Keyword arguments to pass to the function.
+
+    Returns:
+        Any: The function's return value when condition is True, or the
+            default value when condition is False.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import run_if
+
+            result = run_if(True, max, 3, 8)  # -> 8
+            skipped = run_if(False, max, 3, 8, default_value=0)  # -> 0
+            ```
+
+        === "The Traditional Way"
+            ```python
+            if should_run:
+                result = max(3, 8)
+            else:
+                result = 0
+            ```
+    """
+    if condition:
+        return func(*args, **kwargs)
+
+    return default_value
+
+
 def wait_until(condition, timeout: float | int = 5, interval: float | int = 0.1) -> bool:
     """
     Waits until a condition function returns True, or until a timeout
