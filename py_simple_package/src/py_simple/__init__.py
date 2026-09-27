@@ -182,8 +182,10 @@ from .easy_lists import (
 )
 from .easy_logging import (
     clear_log_file,
+    find_log_lines,
     log_function,
     log_step,
+    log_to_file,
     read_recent_log_lines,
 )
 from .easy_math import (

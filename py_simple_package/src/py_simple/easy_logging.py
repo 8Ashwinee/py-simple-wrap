@@ -247,6 +247,40 @@ def read_recent_log_lines(file_path: str, line_count: int = 10) -> list[str]:
         return [line.rstrip("\n") for line in log_file.readlines()[-line_count:]]
 
 
+def log_to_file(file_path: str, message: str) -> bool:
+    """
+    Appends a message to a log file.
+
+    Creates the file if it does not exist and writes the message as one
+    line. Returns True after the message is written successfully.
+
+    Args:
+        file_path (str): Path to the log file to write to.
+        message (str): Message to append to the log file.
+
+    Returns:
+        bool: True when the message is written successfully.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import log_to_file
+
+            log_to_file("app.log", "Started import job")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            with open("app.log", "a") as log_file:
+                log_file.write("Started import job\\n")
+            ```
+    """
+    with open(file_path, "a") as log_file:
+        log_file.write(f"{message}\n")
+
+    return True
+
+
 def find_log_lines(file_path: str, search_text: str) -> list[str]:
     """
     Returns log file lines that contain the supplied search text.
