@@ -11,10 +11,12 @@ from .easy_ai import (
     summarize_text,
     translate_text,
     rewrite_text,
+    analyze_sentiment,
 )
 from .easy_archive import (
     add_to_zip,
     extract_file_from_zip,
+    get_zip_file_count,
     is_zip_file,
     list_zip_contents,
     unzip_file,
@@ -41,6 +43,7 @@ from .easy_colors import (
 )
 from .easy_config import (
     gh_workflow_config,
+    create_env_file,
 )
 from .easy_converter import (
     celsius_to_fahrenheit,
