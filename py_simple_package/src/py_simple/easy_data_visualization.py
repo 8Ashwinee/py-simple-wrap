@@ -130,6 +130,55 @@ def plot_data(X: list, Y: list | None = None):
     plt.show()
 
 
+def plot_box_plot(data: list[float]) -> None:
+    """
+    Displays a box-and-whisker plot for a numeric data series.
+
+    A box plot shows the middle half of the data, the median, and possible
+    outliers, making it useful for quickly understanding the distribution of
+    a list of numbers.
+
+    Args:
+        data (list[float]): The numeric values to visualize.
+
+    Returns:
+        None: The box plot is rendered directly via `plt.show()`.
+
+    Raises:
+        ValueError: If `data` is empty.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import plot_box_plot
+
+            plot_box_plot([12, 14, 15, 15, 16, 18, 30])
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import matplotlib.pyplot as plt
+
+            data = [12, 14, 15, 15, 16, 18, 30]
+            fig, ax = plt.subplots()
+            ax.boxplot(data)
+            ax.set_title("Box plot")
+            plt.show()
+            ```
+    """
+    import matplotlib.pyplot as plt
+
+    if not data:
+        raise ValueError("The data series cannot be empty.")
+
+    _, ax = plt.subplots()
+    ax.boxplot(data)
+    ax.set_title("Box plot")
+    ax.set_ylabel("Values")
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.show()
+
+
 def _infer_type(series) -> Literal["quantitative", "categorical"]:
     """
     Inspects a list of values and classifies it as either
