@@ -178,3 +178,43 @@ def _infer_type(series) -> Literal["quantitative", "categorical"]:
         isinstance(x, (int, float)) and not isinstance(x, bool) for x in series
     )
     return "quantitative" if is_quantitative else "categorical"
+
+
+def get_data_range(data: list[int | float]) -> tuple[int | float, int | float]:
+    """
+    Calculates the minimum and maximum values of a numeric data series,
+    providing a quick summary range for data inspection before plotting.
+
+    Args:
+        data (list): A list of quantitative (int or float) values.
+
+    Returns:
+        tuple: A tuple containing the minimum and maximum values (min, max).
+
+    Raises:
+        ValueError: If `data` is empty or contains non-numeric values.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple.easy_data_visualization import get_data_range
+
+            min_val, max_val = get_data_range([5, 2, 9, 1, 7])
+            ```
+
+        === "The Traditional Way"
+            ```python
+            data = [5, 2, 9, 1, 7]
+            if not data:
+                raise ValueError("Data series cannot be empty.")
+            min_val = min(data)
+            max_val = max(data)
+            ```
+    """
+    if not data:
+        raise ValueError("The data series cannot be empty.")
+
+    if not all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in data):
+        raise ValueError("All elements in the data series must be numbers.")
+
+    return (min(data), max(data))

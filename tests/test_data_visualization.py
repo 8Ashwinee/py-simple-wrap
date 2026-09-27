@@ -88,3 +88,18 @@ def test_plot_data_invalid_type_combination_raises_key_error():
 def test_plot_data_empty_series_raises_value_error():
     with pytest.raises(ValueError, match="The series cannot be empty."):
         plot_data([])
+
+import pytest
+from py_simple.easy_data_visualization import get_data_range
+
+def test_get_data_range_success():
+    assert get_data_range([10, 5, 20, 2]) == (2, 20)
+    assert get_data_range([3.5, 1.1, 7.8]) == (1.1, 7.8)
+
+def test_get_data_range_empty_error():
+    with pytest.raises(ValueError):
+        get_data_range([])
+
+def test_get_data_range_invalid_type_error():
+    with pytest.raises(ValueError):
+        get_data_range([1, 2, "three"])
