@@ -216,6 +216,7 @@ from .easy_numbers import (
     is_odd,
     is_positive,
     is_prime,
+    least_common_multiple,
     percentage_of,
     round_to_nearest,
 )
