@@ -68,6 +68,7 @@ from .easy_csv import (
 )
 from .easy_data_visualization import (
     plot_data,
+    plot_box_plot,
 )
 from .easy_date_formatter import (
     dd_mm_yyyy,
