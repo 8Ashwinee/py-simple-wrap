@@ -269,7 +269,7 @@ def extract_file_from_zip(zip_path: str, filename: str, destination: str = ".") 
             ) from None
         zf.extract(filename, destination)
 
-    return os.path.join(destination, filename)
+    return os.path.normpath(os.path.join(destination, filename))
 
 
 def list_zip_contents(zip_path: str) -> list:
