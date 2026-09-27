@@ -111,3 +111,17 @@ def test_plot_box_plot_empty_series_raises_value_error():
 
 def test_plot_box_plot_is_available_from_public_api():
     assert public_plot_box_plot is plot_box_plot
+import pytest
+from py_simple.easy_data_visualization import get_data_range
+
+def test_get_data_range_success():
+    assert get_data_range([10, 5, 20, 2]) == (2, 20)
+    assert get_data_range([3.5, 1.1, 7.8]) == (1.1, 7.8)
+
+def test_get_data_range_empty_error():
+    with pytest.raises(ValueError):
+        get_data_range([])
+
+def test_get_data_range_invalid_type_error():
+    with pytest.raises(ValueError):
+        get_data_range([1, 2, "three"])
