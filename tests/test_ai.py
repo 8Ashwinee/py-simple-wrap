@@ -320,6 +320,53 @@ def test_rewrite_text_default_tone():
     assert "calm" in mock_model.invoke.call_args[0][0]
 
 
+def test_detect_language_english():
+    from py_simple import detect_language
+
+    assert detect_language("Hello, how are you?") == "English"
 
 
+def test_detect_language_italian():
+    from py_simple import detect_language
 
+    assert detect_language("Ciao, come stai?") == "Italian"
+
+
+def test_detect_language_spanish():
+    from py_simple import detect_language
+
+    assert detect_language("Hola, como estas?") == "Spanish"
+
+
+def test_detect_language_french():
+    from py_simple import detect_language
+
+    assert detect_language("Bonjour, comment allez-vous?") == "French"
+
+
+def test_detect_language_german():
+    from py_simple import detect_language
+
+    assert detect_language("Hallo, wie geht es dir?") == "German"
+
+
+def test_detect_language_unknown():
+    from py_simple import detect_language
+
+    assert detect_language("qwerty zxcvb asdfgh") == "Unknown"
+
+
+def test_detect_language_empty_text():
+    import pytest
+    from py_simple import detect_language
+
+    with pytest.raises(Exception):
+        detect_language("")
+
+
+def test_detect_language_invalid_type():
+    import pytest
+    from py_simple import detect_language
+
+    with pytest.raises(Exception):
+        detect_language(None)

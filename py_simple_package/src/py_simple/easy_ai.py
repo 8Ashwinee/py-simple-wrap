@@ -3,7 +3,10 @@ easy_ai wraps common LangChain functionality to make it easier to use.
 """
 
 from __future__ import annotations
+
+import re
 from typing import TYPE_CHECKING, Any
+
 if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
 
@@ -11,6 +14,7 @@ if TYPE_CHECKING:
 class EasyAIError(Exception):
     """
     Raised when a call to an AI model or provider cannot be completed.
+
     Args:
         message (str): Description of what went wrong.
     """
@@ -108,28 +112,40 @@ def get_model(
 
         api_key = SecretStr(api_key) if api_key is not None else None
         model = ChatAnthropic(
-            model_name=model_name, api_key=api_key, timeout=timeout, stop=None
+            model_name=model_name,
+            api_key=api_key,
+            timeout=timeout,
+            stop=None,
         )
         return model
 
     elif provider == "google":
         from langchain_google_genai import ChatGoogleGenerativeAI
 
-        model = ChatGoogleGenerativeAI(model=model_name, google_api_key=api_key)
+        model = ChatGoogleGenerativeAI(
+            model=model_name,
+            google_api_key=api_key,
+        )
         return model
 
     elif provider == "mistral":
         from langchain_mistralai import ChatMistralAI
 
-        model = ChatMistralAI(api_key=api_key, model_name=model_name)
+        model = ChatMistralAI(
+            api_key=api_key,
+            model_name=model_name,
+        )
         return model
 
     else:
-        raise EasyAIError(f"\n\n\nERROR: Provider '{provider}' is not supported yet!")
+        raise EasyAIError(
+            f"\n\n\nERROR: Provider '{provider}' is not supported yet!"
+        )
 
 
 def ask_ai(
-    ai_model: BaseChatModel, question: str | list
+    ai_model: BaseChatModel,
+    question: str | list,
 ) -> str | list[str | dict[Any, Any]]:
     """
     Sends a question to a LangChain chat model and returns the
@@ -171,6 +187,7 @@ def ask_ai(
             answer = model.invoke("hi").content
             ```
     """
+
     try:
         message = ai_model.invoke(question).content
         return message
@@ -230,15 +247,19 @@ def ai_chat(ai_model: BaseChatModel) -> None:
                 print(f"AI: {response}")
             ```
     """
+
     from langchain_core.messages import AIMessage, HumanMessage
 
     history = []
+
     while True:
         try:
             user_input = input("You: ")
+
             if _is_exit_command(user_input):
                 print("AI: Talk to you later!")
                 break
+
             history.append(HumanMessage(content=user_input))
             response = ask_ai(ai_model, history)
             history.append(AIMessage(content=response))
@@ -279,9 +300,12 @@ def summarize_text(ai_model: BaseChatModel, text: str) -> str:
             from langchain_core.messages import HumanMessage
 
             model = ChatAnthropic(model_name="claude-sonnet-4-6")
-            summary = model.invoke([HumanMessage(content="Please summarize:\n\nLong article text here...")]).content
+            summary = model.invoke(
+                [HumanMessage(content="Please summarize:\n\nLong article text here...")]
+            ).content
             ```
     """
+
     try:
         prompt = f"Please summarize:\n\n{text}"
         return ask_ai(ai_model, prompt)
@@ -290,7 +314,9 @@ def summarize_text(ai_model: BaseChatModel, text: str) -> str:
 
 
 def translate_text(
-    ai_model: BaseChatModel, text: str, target_lang: str = "English"
+    ai_model: BaseChatModel,
+    text: str,
+    target_lang: str = "English",
 ) -> str:
     """
     Sends a request to translate the provided text into the target
@@ -317,7 +343,11 @@ def translate_text(
             from py_simple import get_model, translate_text
 
             model = get_model("anthropic", "claude-sonnet-4-6")
-            translation = translate_text(model, "Hola mundo", target_lang="English")
+            translation = translate_text(
+                model,
+                "Hola mundo",
+                target_lang="English",
+            )
             ```
 
         === "The Traditional Way"
@@ -331,6 +361,7 @@ def translate_text(
             ]).content
             ```
     """
+
     try:
         prompt = f"Translate to {target_lang}:\n\n{text}"
         return ask_ai(ai_model, prompt)
@@ -338,7 +369,11 @@ def translate_text(
         raise EasyAIError(f"\n\n\nERROR: {e}") from None
 
 
-def rewrite_text(ai_model: BaseChatModel, text: str, tone: str = "calm") -> str:
+def rewrite_text(
+    ai_model: BaseChatModel,
+    text: str,
+    tone: str = "calm",
+) -> str:
     """
     Sends a request to change the tone of the provided text,
     without you having to change it manually.
@@ -347,49 +382,112 @@ def rewrite_text(ai_model: BaseChatModel, text: str, tone: str = "calm") -> str:
         ai_model (BaseChatModel): A LangChain chat model instance,
             such as one returned by `get_model()`.
         text (str): Text whose tone will be changed.
-        tone (str) : Used to decide the tone for the text that the user
-        wants (e.g. calm, angry, nervous, supportive, etc., by defualt the
-        tone is calm).
-     
+        tone (str): Used to decide the tone for the text that the user
+            wants (e.g. calm, angry, nervous, supportive, etc.).
+            Defaults to "calm".
+
     Returns:
         str: The text with its tone changed.
-     
+
     Raises:
         EasyAIError: If the underlying model call fails.
-     
+
     Example:
         === "The Py_simple Way"
             ```python
             from py_simple import get_model, rewrite_text
 
             model = get_model("anthropic", "claude-sonnet-4-6")
-            tone = rewrite_text(model , "hello py-simple-wrap devs" , "excited")
+            tone = rewrite_text(
+                model,
+                "hello py-simple-wrap devs",
+                "excited",
+            )
             ```
-        
-        === "The Traditional Way"
-                ```python
-                from langchain_anthropic import ChatAnthropic
-                from langchain_core.messages import HumanMessage
 
-                model = ChatAnthropic(model_name="claude-sonnet-4-6")
-                tone = model.invoke([HumanMessage(content="Change tone to excited:hello py-simple-wrap devs" )
-                ]).content
-                ```
+        === "The Traditional Way"
+            ```python
+            from langchain_anthropic import ChatAnthropic
+            from langchain_core.messages import HumanMessage
+
+            model = ChatAnthropic(model_name="claude-sonnet-4-6")
+            tone = model.invoke([
+                HumanMessage(
+                    content="Change tone to excited: hello py-simple-wrap devs"
+                )
+            ]).content
+            ```
     """
+
     try:
         prompt = f"Change tone to {tone}:\n\n{text}"
-        return ask_ai(ai_model,prompt)
+        return ask_ai(ai_model, prompt)
     except Exception as e:
         raise EasyAIError(f"\n\n\nERROR: {e}") from None
 
 
+def detect_language(text: str) -> str:
+    """
+    Guesses which language a piece of text is written in, using
+    simple keyword scoring rules, without installing a language-detection
+    library or calling an external API.
 
+    Args:
+        text (str): The raw text to analyze.
 
+    Returns:
+        str: The detected language name (e.g., "English"), or
+        "Unknown" if nothing could be confidently identified.
 
- 
-# ⚠️️ WORK IN PROGRESS ⚠️
-# This class will eventually take the complexity of setting up an agent
-# with LangChain and turning it into something simple.
+    Raises:
+        EasyAIError: If `text` is not a string or is empty/whitespace.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import detect_language
+
+            language = detect_language("Hello, how are you?")
+            # "English"
+            ```
+    """
+
+    if not isinstance(text, str) or not text.strip():
+        raise EasyAIError(
+            "ERROR: detect_language() requires a non-empty string."
+        )
+
+    words = set(re.findall(r"[a-zà-öø-ÿ]+", text.lower()))
+
+    scores = {
+        "English": sum(
+            word in words
+            for word in ["the", "and", "is", "you", "are", "hello"]
+        ),
+        "Italian": sum(
+            word in words
+            for word in ["il", "la", "che", "di", "sono", "ciao"]
+        ),
+        "Spanish": sum(
+            word in words
+            for word in ["el", "la", "que", "de", "es", "hola"]
+        ),
+        "French": sum(
+            word in words
+            for word in ["le", "la", "et", "est", "vous", "bonjour"]
+        ),
+        "German": sum(
+            word in words
+            for word in ["der", "die", "und", "ist", "du", "hallo", "wie", "geht", "dir"]
+        ),
+    }
+
+    best_lang = max(scores, key=scores.get)
+
+    if scores[best_lang] == 0:
+        return "Unknown"
+
+    return best_lang
 
 
 def analyze_sentiment(ai_model: BaseChatModel, text: str) -> str:
@@ -415,7 +513,10 @@ def analyze_sentiment(ai_model: BaseChatModel, text: str) -> str:
             from py_simple import get_model, analyze_sentiment
 
             model = get_model("anthropic", "claude-sonnet-4-6")
-            sentiment = analyze_sentiment(model, "I absolutely love this new tool!")
+            sentiment = analyze_sentiment(
+                model,
+                "I absolutely love this new tool!",
+            )
             ```
 
         === "The Traditional Way"
@@ -425,10 +526,18 @@ def analyze_sentiment(ai_model: BaseChatModel, text: str) -> str:
 
             model = ChatAnthropic(model_name="claude-sonnet-4-6")
             sentiment = model.invoke([
-                HumanMessage(content="Analyze the sentiment of the following text and respond with a single word (e.g., Positive, Negative, Neutral):\n\nI absolutely love this new tool!")
+                HumanMessage(
+                    content=(
+                        "Analyze the sentiment of the following text and "
+                        "respond with a single word "
+                        "(e.g., Positive, Negative, Neutral):\n\n"
+                        "I absolutely love this new tool!"
+                    )
+                )
             ]).content
             ```
     """
+
     try:
         prompt = (
             "Analyze the sentiment of the following text and respond with "
@@ -442,7 +551,10 @@ def analyze_sentiment(ai_model: BaseChatModel, text: str) -> str:
 
 class EasyAgent:
     def __init__(
-        self, prompt_path: str, toolbox: list | None = None, history: list | None = None
+        self,
+        prompt_path: str,
+        toolbox: list | None = None,
+        history: list | None = None,
     ):
         self.toolbox = toolbox
         self.history = history
@@ -455,10 +567,17 @@ class EasyAgent:
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     prompt = f.read().rstrip()
+
                 self.master_prompt = prompt
-            except (FileNotFoundError, PermissionError, UnicodeDecodeError) as e:
+
+            except (
+                FileNotFoundError,
+                PermissionError,
+                UnicodeDecodeError,
+            ) as e:
                 raise EasyAIError(f"\n\n\nERROR: {e}") from None
         else:
             raise EasyAIError(
-                f"\n\n\nERROR: {path} not supported. Only `.txt` files are supported."
+                f"\n\n\nERROR: {path} not supported. "
+                "Only `.txt` files are supported."
             ) from None
