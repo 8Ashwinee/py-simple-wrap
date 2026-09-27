@@ -478,7 +478,7 @@ def detect_language(text: str) -> str:
         ),
         "German": sum(
             word in words
-            for word in ["der", "die", "und", "ist", "du", "hallo"]
+            for word in ["der", "die", "und", "ist", "du", "hallo", "wie", "geht", "dir"]
         ),
     }
 
