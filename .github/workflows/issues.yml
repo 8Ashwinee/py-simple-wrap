@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install .[test,ai] pytest-cov
+          pip install .[test,all] pytest-cov
 
       - name: Run tests with coverage
         run: |
