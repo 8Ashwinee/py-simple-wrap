@@ -44,6 +44,7 @@ from .easy_colors import (
 from .easy_config import (
     gh_workflow_config,
     create_env_file,
+    read_env_file,
 )
 from .easy_converter import (
     celsius_to_fahrenheit,
