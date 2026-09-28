@@ -182,8 +182,10 @@ from .easy_lists import (
 )
 from .easy_logging import (
     clear_log_file,
+    find_log_lines,
     log_function,
     log_step,
+    log_to_file,
     read_recent_log_lines,
 )
 from .easy_math import (
@@ -216,6 +218,7 @@ from .easy_numbers import (
     is_odd,
     is_positive,
     is_prime,
+    least_common_multiple,
     percentage_of,
     round_to_nearest,
 )
