@@ -10,6 +10,7 @@ from py_simple_package.src.py_simple.easy_numbers import (
     is_odd,
     is_positive,
     is_prime,
+    least_common_multiple,
     percentage_of,
     round_to_nearest,
 )
@@ -267,6 +268,37 @@ def test_gcd_zero_and_number():
 
 def test_gcd_both_zero():
     assert greatest_common_divisor(0, 0) == 0
+
+
+# least_common_multiple
+
+
+def test_lcm_shared_multiple():
+    assert least_common_multiple(12, 18) == 36
+
+
+def test_lcm_coprime_numbers():
+    assert least_common_multiple(7, 13) == 91
+
+
+def test_lcm_one_is_multiple_of_other():
+    assert least_common_multiple(10, 30) == 30
+
+
+def test_lcm_negative_number():
+    assert least_common_multiple(-12, 18) == 36
+
+
+def test_lcm_both_negative():
+    assert least_common_multiple(-12, -18) == 36
+
+
+def test_lcm_zero_and_number():
+    assert least_common_multiple(0, 5) == 0
+
+
+def test_lcm_both_zero():
+    assert least_common_multiple(0, 0) == 0
 
 
 # clamp
