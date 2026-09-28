@@ -1,9 +1,8 @@
 import pytest
 
 from py_simple_package.src.py_simple import (
- add-easy-data-visualization-function
     append_row_to_csv,
-    count_csv_rows, main
+    count_csv_rows,
     filter_csv_rows,
     get_csv_columns,
     read_csv_to_list,
@@ -207,7 +206,7 @@ class TestFilterCsvRows:
         write_people_csv(csv_file)
 
         with pytest.raises(ValueError):
-            filter_csv_rows(str(csv_file), column="City", value="Nowhere") add-easy-data-visualization-function
+            filter_csv_rows(str(csv_file), column="City", value="Nowhere")
 
 
 class TestAppendRowToCsv:
@@ -221,4 +220,3 @@ class TestAppendRowToCsv:
         rows = read_csv_to_list(str(csv_file), return_dict=True)
         assert len(rows) == 4
         assert rows[3] == {"Name": "Dave", "Age": "25"}
- main
