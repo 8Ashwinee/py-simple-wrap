@@ -271,6 +271,59 @@ async def run_concurrent_map(func, items: list) -> list:
     return results
 
 
+async def run_after_delay(func, delay: float, *args) -> tuple:
+    """
+    Waits asynchronously before running a function.
+
+    Raises EasyAsyncError if the function raises an exception after the
+    delay finishes.
+
+    Args:
+        func (callable): The function to execute.
+        delay (float): Number of seconds to wait before running the function.
+        *args: Positional arguments to pass to the function.
+
+    Returns:
+        tuple: A tuple containing `(func.__name__, result)`.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            import asyncio
+            from py_simple import run_after_delay
+
+            def greet(name):
+                return f"Hello, {name}!"
+
+            async def main():
+                return await run_after_delay(greet, 1.0, "Sam")
+
+            asyncio.run(main())  # -> ("greet", "Hello, Sam!")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import asyncio
+
+            def greet(name):
+                return f"Hello, {name}!"
+
+            async def main():
+                await asyncio.sleep(1.0)
+                loop = asyncio.get_running_loop()
+                result = await loop.run_in_executor(None, greet, "Sam")
+                return ("greet", result)
+            ```
+    """
+    try:
+        await asyncio.sleep(delay)
+        loop = asyncio.get_running_loop()
+        result = await loop.run_in_executor(None, func, *args)
+        return (func.__name__, result)
+    except Exception as e:
+        raise EasyAsyncError(f"\n\n\nERROR: {e}") from None
+
+
 async def run_with_retry(func, attempts: int, delay: float, *args) -> tuple:
     """
     Runs a function repeatedly until it succeeds or all attempts are
