@@ -12,6 +12,7 @@ from py_simple_package.src.py_simple.easy_flow import (
     run_py_string,
     run_with_fallback,
     run_with_delay,
+    run_if,
     time_function_call,
     time_it,
     wait_until,
@@ -295,6 +296,31 @@ def test_run_with_delay():
     # Test that it successfully runs after a tiny delay and returns correct math
     result = run_with_delay(0.01, sample_add, 5, 5)
     assert result == 10
+
+
+def test_run_if_runs_function_when_condition_is_true():
+    assert run_if(True, max, 3, 8) == 8
+
+
+def test_run_if_returns_default_when_condition_is_false():
+    assert run_if(False, max, 3, 8, default_value=0) == 0
+
+
+def test_run_if_does_not_call_function_when_condition_is_false():
+    calls = []
+
+    def record_call():
+        calls.append("called")
+
+    assert run_if(False, record_call) is None
+    assert calls == []
+
+
+def test_run_if_passes_keyword_arguments():
+    def greet(name, greeting="Hello"):
+        return f"{greeting}, {name}!"
+
+    assert run_if(True, greet, "World", greeting="Hi") == "Hi, World!"
 
 
 def test_wait_until_returns_true_when_condition_is_ready():
