@@ -1,6 +1,7 @@
 import pytest
 
 from py_simple_package.src.py_simple import (
+    append_row_to_csv,
     filter_csv_rows,
     get_csv_columns,
     read_csv_to_list,
@@ -171,3 +172,16 @@ class TestFilterCsvRows:
 
         with pytest.raises(ValueError):
             filter_csv_rows(str(csv_file), column="City", value="Nowhere")
+
+
+class TestAppendRowToCsv:
+    def test_append_row_to_csv(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        # Test appending a dict row
+        append_row_to_csv(str(csv_file), {"Name": "Dave", "Age": "25"})
+
+        rows = read_csv_to_list(str(csv_file), return_dict=True)
+        assert len(rows) == 4
+        assert rows[3] == {"Name": "Dave", "Age": "25"}
