@@ -2,7 +2,6 @@
 easy_csv is built to simplify reading and writing CSV files.
 """
 
-
 import csv
 import os.path
 from typing import Any
@@ -11,7 +10,7 @@ from typing import Any
 def read_csv_to_list(
     filepath: str,
     return_dict: bool = True,
-    delimiter: str = ',',
+    delimiter: str = ",",
 ) -> list[dict[str, Any]] | list[list[Any]]:
     """
     Read a CSV file and return its contents
@@ -57,14 +56,14 @@ def read_csv_to_list(
             ```
     """
     if not os.path.exists(filepath):
-        raise FileNotFoundError("File not found: %s" % filepath)
+        raise FileNotFoundError(f"File not found: {filepath}")
 
     with open(filepath, "r", newline="", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter=delimiter)
         rows = list(reader)
 
     if not rows:
-        raise ValueError("File is empty: %s" % filepath)
+        raise ValueError(f"File is empty: {filepath}")
 
     if not return_dict:
         return rows
@@ -77,7 +76,7 @@ def write_csv_from_list(
     filepath: str,
     data: list[dict[str, Any]] | list[list[Any]],
     headers: list[str] | None = None,
-    delimiter: str = ',',
+    delimiter: str = ",",
 ) -> None:
     """
     Write data to a CSV file.
@@ -140,7 +139,7 @@ def write_csv_from_list(
 
 def get_csv_columns(
     filepath: str,
-    delimiter: str = ',',
+    delimiter: str = ",",
 ) -> list[str]:
     """
     Retrieve a CSV column names (headers) from a CSV file.
@@ -176,15 +175,68 @@ def get_csv_columns(
             ```
     """
     if not os.path.exists(filepath):
-        raise FileNotFoundError("File not found: %s" % filepath)
+        raise FileNotFoundError(f"File not found: {filepath}")
 
     with open(filepath, "r", newline="", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter=delimiter)
         try:
             headers = next(reader)
         except StopIteration:
-            raise ValueError("File is empty: %s" % filepath)
+            raise ValueError(f"File is empty: {filepath}")
     return headers
+
+
+def count_csv_rows(
+    filepath: str,
+    include_header: bool = False,
+    delimiter: str = ",",
+) -> int:
+    """
+    Count rows in a CSV file.
+
+    Args:
+        filepath (str): Path to the CSV file.
+        include_header (bool): If True, include the header row in the count.
+        delimiter (str): Field delimiter (default is comma).
+
+    Returns:
+        int: Number of rows in the CSV file.
+
+    Raises:
+        FileNotFoundError: If filepath doesn't exist.
+        ValueError: If the file is empty.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import count_csv_rows
+
+            row_count = count_csv_rows(filepath="people.csv")
+            print(row_count)  # 3
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import csv
+
+            with open("people.csv", "r", newline="", encoding="utf-8") as f:
+                row_count = sum(1 for _ in csv.reader(f)) - 1
+            print(row_count)  # 3
+            ```
+    """
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"File not found: {filepath}")
+
+    with open(filepath, "r", newline="", encoding="utf-8") as f:
+        row_count = sum(1 for _ in csv.reader(f, delimiter=delimiter))
+
+    if row_count == 0:
+        raise ValueError(f"File is empty: {filepath}")
+
+    if include_header:
+        return row_count
+
+    return max(row_count - 1, 0)
 
 
 def filter_csv_rows(
@@ -192,7 +244,7 @@ def filter_csv_rows(
     column: str,
     value: str,
     return_dict: bool = True,
-    delimiter: str = ',',
+    delimiter: str = ",",
 ) -> list[dict[str, Any]] | list[list[Any]]:
     """
     Filter rows where a specific column equals the given value.
@@ -230,11 +282,13 @@ def filter_csv_rows(
             print(data)  # [{'Name': 'Alice', 'Age': '24'}]
             ```
     """
-    if not (all_rows := read_csv_to_list(filepath, return_dict=True, delimiter=delimiter)):
+    if not (
+        all_rows := read_csv_to_list(filepath, return_dict=True, delimiter=delimiter)
+    ):
         return []
 
     if column not in all_rows[0]:
-        raise ValueError("Column not found: %s" % column)
+        raise ValueError(f"Column not found: {column}")
 
     filtered = [row for row in all_rows if row.get(column) == value]
 

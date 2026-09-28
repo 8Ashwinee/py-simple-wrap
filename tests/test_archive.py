@@ -2,14 +2,16 @@ import zipfile
 
 import pytest
 
-from py_simple.easy_archive import (
-    zip_folder,
-    zip_files,
-    unzip_file,
-    list_zip_contents,
-    add_to_zip,
-    is_zip_file,
+from py_simple_package.src.py_simple.easy_archive import (
     EasyArchiveError,
+    add_to_zip,
+    extract_file_from_zip,
+    get_zip_file_count,
+    is_zip_file,
+    list_zip_contents,
+    unzip_file,
+    zip_files,
+    zip_folder,
 )
 
 
@@ -108,7 +110,9 @@ def test_unzip_file_round_trip(tmp_path):
 
     assert result == destination
     assert (tmp_path / "restored" / "a.txt").read_text(encoding="utf-8") == "hello"
-    assert (tmp_path / "restored" / "sub" / "b.txt").read_text(encoding="utf-8") == "world"
+    assert (tmp_path / "restored" / "sub" / "b.txt").read_text(
+        encoding="utf-8"
+    ) == "world"
 
 
 def test_unzip_file_extracts_into_existing_destination(tmp_path):
@@ -136,6 +140,56 @@ def test_unzip_file_invalid_zip_raises(tmp_path):
 
     with pytest.raises(EasyArchiveError):
         unzip_file(str(fake_zip), str(tmp_path / "out"))
+
+
+def test_extract_file_from_zip_extracts_one_file(tmp_path):
+    project = make_folder_with_files(tmp_path)
+    zip_name = str(tmp_path / "project.zip")
+    zip_folder(str(project), zip_name)
+    destination = tmp_path / "restored"
+
+    result = extract_file_from_zip(zip_name, "sub/b.txt", str(destination))
+
+    assert result == str(destination / "sub" / "b.txt")
+    assert (destination / "sub" / "b.txt").read_text(encoding="utf-8") == "world"
+    assert not (destination / "a.txt").exists()
+
+
+def test_extract_file_from_zip_missing_zip_raises(tmp_path):
+    with pytest.raises(EasyArchiveError):
+        extract_file_from_zip(
+            str(tmp_path / "nope.zip"),
+            "notes.txt",
+            str(tmp_path / "out"),
+        )
+
+
+def test_extract_file_from_zip_invalid_zip_raises(tmp_path):
+    fake_zip = tmp_path / "fake.zip"
+    fake_zip.write_text("not actually a zip", encoding="utf-8")
+
+    with pytest.raises(EasyArchiveError):
+        extract_file_from_zip(str(fake_zip), "notes.txt", str(tmp_path / "out"))
+
+
+def test_extract_file_from_zip_missing_member_raises(tmp_path):
+    project = make_folder_with_files(tmp_path)
+    zip_name = str(tmp_path / "project.zip")
+    zip_folder(str(project), zip_name)
+
+    with pytest.raises(EasyArchiveError):
+        extract_file_from_zip(zip_name, "missing.txt", str(tmp_path / "out"))
+
+
+def test_extract_file_from_zip_destination_is_existing_file_raises(tmp_path):
+    project = make_folder_with_files(tmp_path)
+    zip_name = str(tmp_path / "project.zip")
+    zip_folder(str(project), zip_name)
+    blocked_destination = tmp_path / "blocked"
+    blocked_destination.write_text("i am a file, not a folder", encoding="utf-8")
+
+    with pytest.raises(EasyArchiveError):
+        extract_file_from_zip(zip_name, "a.txt", str(blocked_destination))
 
 
 def test_list_zip_contents(tmp_path):
@@ -281,8 +335,7 @@ def test_zip_files_disambiguates_colliding_basenames(tmp_path, capsys):
     destination = str(tmp_path / "extracted")
     unzip_file(zip_name, destination)
     extracted_texts = {
-        p.read_text(encoding="utf-8")
-        for p in (tmp_path / "extracted").iterdir()
+        p.read_text(encoding="utf-8") for p in (tmp_path / "extracted").iterdir()
     }
     assert extracted_texts == {"from dir1", "from dir2"}
 
@@ -308,3 +361,35 @@ def test_zip_files_numbers_collisions_with_the_same_parent_name(tmp_path):
             "report_shared.txt",
             "report_shared_2.txt",
         }
+
+def test_get_zip_file_count_success(tmp_path):
+    zip_path = tmp_path / "test.zip"
+    with zipfile.ZipFile(zip_path, "w") as zf:
+        zf.writestr("one.txt", "1")
+        zf.writestr("two.txt", "2")
+        zf.writestr("nested/three.txt", "3")
+
+    assert get_zip_file_count(str(zip_path)) == 3
+
+
+def test_get_zip_file_count_empty_zip(tmp_path):
+    zip_path = tmp_path / "empty.zip"
+    with zipfile.ZipFile(zip_path, "w"):
+        pass
+
+    assert get_zip_file_count(str(zip_path)) == 0
+
+
+def test_get_zip_file_count_missing_file(tmp_path):
+    missing_zip = tmp_path / "missing.zip"
+    with pytest.raises(EasyArchiveError, match="does not exist"):
+        get_zip_file_count(str(missing_zip))
+
+
+def test_get_zip_file_count_invalid_zip(tmp_path):
+    invalid_zip = tmp_path / "corrupt.zip"
+    invalid_zip.write_text("not a real zip", encoding="utf-8")
+
+    with pytest.raises(EasyArchiveError, match="not a valid zip file"):
+        get_zip_file_count(str(invalid_zip))
+        

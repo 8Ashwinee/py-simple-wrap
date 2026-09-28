@@ -2,12 +2,13 @@
 easy_generator helps generate things faster.
 """
 
-import string
-import random
-import qrcode
 import os
-import uuid
+import random
+import re
 import secrets
+import string
+import unicodedata
+import uuid
 
 
 class EasyGeneratorError(Exception):
@@ -22,14 +23,19 @@ class EasyGeneratorError(Exception):
 
     Args:
         message (str): Human-readable description of what went wrong.
-        """
+    """
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
 
 
-def generate_password(pass_length: int = 12, uppercase_chars: int = 2,
-                      digit_chars: int = 2, special_chars: int = 2) -> str:
+def generate_password(
+        pass_length: int = 12,
+        uppercase_chars: int = 2,
+        digit_chars: int = 2,
+        special_chars: int = 2,
+) -> str:
     """
     Generates a randomized password of a given length in one call,
     handling the character-pool selection, shuffling, and
@@ -82,19 +88,17 @@ def generate_password(pass_length: int = 12, uppercase_chars: int = 2,
             password = ''.join(chars)
             ```
     """
-    lowercase_chars = (pass_length -
-                       (special_chars + digit_chars + uppercase_chars))
-    lower_chars = [secrets.choice(string.ascii_lowercase)
-                   for _ in range(lowercase_chars)]
-    upper_chars = [secrets.choice(string.ascii_uppercase)
-                   for _ in range(uppercase_chars)]
-    digit_chars = [secrets.choice(string.digits)
-                   for _ in range(digit_chars)]
-    special_chars = [secrets.choice(string.punctuation)
-                     for _ in range(special_chars)]
+    lowercase_chars = pass_length - (special_chars + digit_chars + uppercase_chars)
+    lower_chars = [
+        secrets.choice(string.ascii_lowercase) for _ in range(lowercase_chars)
+    ]
+    upper_chars = [
+        secrets.choice(string.ascii_uppercase) for _ in range(uppercase_chars)
+    ]
+    digit_chars = [secrets.choice(string.digits) for _ in range(digit_chars)]
+    special_chars = [secrets.choice(string.punctuation) for _ in range(special_chars)]
 
-    pass_chars = [i for i in lower_chars + upper_chars +
-                  digit_chars + special_chars]
+    pass_chars = [i for i in lower_chars + upper_chars + digit_chars + special_chars]
 
     all_clear = False
     while not all_clear:
@@ -108,7 +112,56 @@ def generate_password(pass_length: int = 12, uppercase_chars: int = 2,
                 last_char = char
             all_clear = True
 
-    return ''.join(pass_chars)
+    return "".join(pass_chars)
+
+
+def generate_slug(text: str) -> str:
+    """
+    Generates a slug(URL-friendly string) from string.
+
+    Args:
+        text (str): The text to be converted to a slug.
+
+    Returns:
+        str: A URL-friendly slug.
+
+    Raises:
+        EasyGeneratorError: If `str` is empty, or if the
+        slug conversion fails.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import generate_slug
+
+            text = "Hello This-Becomes_A slug"
+            slug = generate_slug(text)
+            print(slug)  # 'hello-this-becomes-a-slug'
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import re
+            import unicodedata
+
+            text = "Hello This-Becomes_A slug"
+
+            normalized = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+            lowercased = normalized.lower()
+            slug = re.sub(r"[^a-z0-9]+", "-", lowercased).strip("-")
+            print(slug)
+            ```
+    """
+    if not isinstance(text, str):
+        raise EasyGeneratorError("You need to provide a string.")
+    normalized_text = (
+        unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+    )
+    lowercased_text = normalized_text.lower()
+    slug = re.sub(r"[^a-z0-9]+", "-", lowercased_text).strip("-")
+    if not slug:
+        raise EasyGeneratorError("This string has no valid characters to convert.")
+    return slug
 
 
 def generate_qr_code(data_to_encode: str) -> None:
@@ -137,7 +190,7 @@ def generate_qr_code(data_to_encode: str) -> None:
             ```python
             from py_simple import generate_qr_code
 
-            generate_qr_code("https://example.com")
+            generate_qr_code("[https://example.com](https://example.com)")
             ```
 
         === "The Traditional Way"
@@ -145,7 +198,7 @@ def generate_qr_code(data_to_encode: str) -> None:
             import qrcode
             import os
 
-            data = "https://example.com"
+            data = "[https://example.com](https://example.com)"
             img = qrcode.make(data)
 
             num = 0
@@ -157,16 +210,17 @@ def generate_qr_code(data_to_encode: str) -> None:
     if not data_to_encode:
         raise EasyGeneratorError("You need to provide some data to encode")
     try:
-        img = qrcode.make(data_to_encode)
+        import qrcode
 
+        img = qrcode.make(data_to_encode)
         num = 0
         good_filename = False
         while not good_filename:
-            if os.path.exists(f'qrcode{num}.png'):
+            if os.path.exists(f"qrcode{num}.png"):
                 num += 1
             else:
                 good_filename = True
-        img.save(f'qrcode{num}.png')
+        img.save(f"qrcode{num}.png")
     except Exception as e:
         raise EasyGeneratorError(f"\n\n\nERROR: {e}")
 
@@ -196,7 +250,6 @@ def generate_uuid() -> str:
             result = str(uuid.uuid4())
             ```
     """
-
     return str(uuid.uuid4())
 
 
@@ -273,5 +326,79 @@ def generate_otp(length: int = 4, with_letters: bool = False) -> str:
                 otp += str(secrets.randbelow(10))
         return otp
     else:
-        raise EasyGeneratorError("\n\n\nERROR: OTP length must be at least "
-                                 "4") from None
+        raise EasyGeneratorError("\n\n\nERROR: OTP length must be at least 4") from None
+
+
+def generate_pin(length: int = 4) -> str:
+    """
+    Generates a numeric PIN code of a chosen length in one call.
+
+    Args:
+        length (int, optional): Number of digits in the generated PIN.
+            Defaults to `4`.
+
+    Returns:
+        str: A numeric PIN string that keeps leading zeros when they
+            are generated.
+
+    Raises:
+        EasyGeneratorError: If `length` is less than 1.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import generate_pin
+
+            pin = generate_pin(6)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import secrets
+
+            pin = "".join(str(secrets.randbelow(10)) for _ in range(6))
+            ```
+    """
+    if length < 1:
+        raise EasyGeneratorError("\n\n\nERROR: PIN length must be at least 1") from None
+
+    return "".join(str(secrets.randbelow(10)) for _ in range(length))
+
+
+def generate_username(separator: str = "-") -> str:
+    """
+    Generates a random, friendly username using a combination of a random
+    adjective, noun, and number, handling the word-pool selection in one call.
+
+    Args:
+        separator (str, optional): The character used to separate words
+            in the username. Defaults to `-`.
+
+    Returns:
+        str: A randomly generated username string (e.g., "swift-coder-42").
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import generate_username
+
+            username = generate_username(separator="_")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import random
+
+            adjectives = ["swift", "clever", "brave", "calm"]
+            nouns = ["coder", "hacker", "ninja", "wizard"]
+            username = f"{random.choice(adjectives)}_{random.choice(nouns)}_{random.randint(10, 99)}"
+            ```
+    """
+    adjectives = ["swift", "clever", "brave", "calm", "bright", "cool"]
+    nouns = ["coder", "hacker", "ninja", "wizard", "geek", "dev"]
+
+    adj = secrets.choice(adjectives)
+    noun = secrets.choice(nouns)
+    num = secrets.randbelow(90) + 10  # 2-digit number between 10 and 99
+
+    return f"{adj}{separator}{noun}{separator}{num}"

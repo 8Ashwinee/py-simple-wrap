@@ -1,30 +1,31 @@
-<div align="center">
+<div align="center" markdown="1">
 
 ⚡[Quickstart](QUICKSTART.md) · 📦[Modules](MODULES.md) · 🆘[Support](SUPPORT.md) · 🚀[Contributing](CONTRIBUTING.md) · 🌟[Contributors](CONTRIBUTORS.md) · 📜[Changelog](CHANGELOG.md) · 🔒[Security](SECURITY.md) · 🌱[Code of Conduct](CODE_OF_CONDUCT.md) · ⚖️[License](LICENSE.md)
 
 </div>
+<br>
 
-<div align="center">
-<!-- Once you have a logo/wordmark image, this pair auto-swaps by GitHub theme:
-![py-simple-wrap](docs/assets/logo-dark.png#gh-dark-mode-only)
-![py-simple-wrap](docs/assets/logo-light.png#gh-light-mode-only)
--->
+<!-- docs-site-start -->
+
+<div align="center" markdown="1">
+<img src="https://raw.githubusercontent.com/sara-czasak/py-simple-wrap/main/docs/assets/logo.jpg" alt="py-simple-wrap logo" width="150" height="150" style="border-radius: 50%; object-fit: cover;">
  
-# py-simple-wrap
- 
+<h1 id="py-simple-wrap" style="margin-top: 0;">py-simple-wrap</h1>
+
 **Making Python feel like plain English.**
  
 [![PyPI](https://img.shields.io/pypi/v/py-simple-wrap?style=flat-square&logo=pypi&logoColor=white&color=3775A9)](https://pypi.org/project/py-simple-wrap/)
 [![Tests](https://img.shields.io/github/actions/workflow/status/sara-czasak/py-simple-wrap/tests.yml?style=flat-square&logo=github&label=tests)](https://github.com/sara-czasak/py-simple-wrap/actions/workflows/tests.yml)
-[![Contributors](https://img.shields.io/badge/contributors-39-orange?style=flat-square)](CONTRIBUTORS.md)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)](LICENSE.md)
+[![Contributors](https://img.shields.io/badge/contributors-68-orange?style=flat-square)](CONTRIBUTORS.md)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/py-simple-wrap?period=total&units=NONE&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/py-simple-wrap)
+[![License](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](LICENSE.md)
 [![Discord](https://img.shields.io/discord/1533803449895092245?style=flat-square&logo=discord&logoColor=white&label=discord&color=5865F2)](https://discord.gg/Ge5HnVw2p)
  
 </div>
 <br>
 py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive functions for common tasks, so you can build something fun before the syntax gets in the way.
  
-<div align="center">
+<div align="center" markdown="1">
 <br>
 
 ## Modules at a glance
@@ -33,8 +34,9 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [📂 ![Files](https://img.shields.io/badge/Files-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_file_manager/) | [🕰️ ![Dates](https://img.shields.io/badge/Dates-E0692A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_date_formatter/)   | [🔢 ![Numbers](https://img.shields.io/badge/Numbers-C98C1B?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_numbers/)  | [📋 ![Lists](https://img.shields.io/badge/Lists-2FA84F?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_lists/) | [🔤 ![Strings](https://img.shields.io/badge/Strings-2FA84F?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_strings/) | [✂️ ![Text](https://img.shields.io/badge/Text-2FA84F?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_text/)        | [🔄 ![Converter](https://img.shields.io/badge/Converter-C98C1B?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_converter/) | [✅ ![Validator](https://img.shields.io/badge/Validator-2FA84F?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_validator/) | [🌐 ![Web](https://img.shields.io/badge/Web-9B59D0?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_web/) | [🎨 ![Colors](https://img.shields.io/badge/Colors-9B59D0?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_colors/)                   |
 | [🔄 ![Flow](https://img.shields.io/badge/Flow-E0692A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_flow/)           | [📄 ![JSON](https://img.shields.io/badge/JSON-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_json/)                | [🔍 ![Regex](https://img.shields.io/badge/Regex-2FA84F?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_regex/)        | [⚡ ![Async](https://img.shields.io/badge/Async-E0692A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_async/)  | [🔑 ![Dict](https://img.shields.io/badge/Dict-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_dict/)          | [🖼️ ![Images](https://img.shields.io/badge/Images-9B59D0?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_images/) | [🧮 ![Math](https://img.shields.io/badge/Math-C98C1B?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_math/)                | [📊 ![Stats](https://img.shields.io/badge/Stats-C98C1B?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_stats/)            | [📑 ![CSV](https://img.shields.io/badge/CSV-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_csv/) | [📈 ![Data viz](https://img.shields.io/badge/Data%20viz-9B59D0?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_data_visualization/) |
-| [🎮 ![Game](https://img.shields.io/badge/Game-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_game/)           | [🎲 ![Generator](https://img.shields.io/badge/Generator-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_generator/) | [🗜️ ![Archive](https://img.shields.io/badge/Archive-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_archive/) | [❔ ![SQL](https://img.shields.io/badge/SQL-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_sql/)        | [🔀 ![Random](https://img.shields.io/badge/Random-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_random/)    | [⚙️ ![Config](https://img.shields.io/badge/Config-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_config/)  | [🤖 ![AI](https://img.shields.io/badge/AI-A0522D?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_ai/)                      |
-|                                                                                                                                                            |                                                                                                                                                                 |                                                                                                                                                            |
+| [🎮 ![Game](https://img.shields.io/badge/Game-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_game/)           | [🎲 ![Generator](https://img.shields.io/badge/Generator-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_generator/) | [🗜️ ![Archive](https://img.shields.io/badge/Archive-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_archive/) | [❔ ![SQL](https://img.shields.io/badge/SQL-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_sql/)        | [🔀 ![Random](https://img.shields.io/badge/Random-E0507A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_random/)    | [⚙️ ![Config](https://img.shields.io/badge/Config-4C8BF5?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_config/)  | [🤖 ![AI](https://img.shields.io/badge/AI-A0522D?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_ai/)                      | [🪵 ![Logging](https://img.shields.io/badge/Logging-E0692A?style=flat-square)](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_logging/)      |                                                                                                                                               |                                                                                                                                                                          |
+
+
 
 ### Legend:
 
@@ -52,40 +54,107 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
  
 
 </div>
+
+---
+<div align="center" markdown="1">
+
+## py-simple-wrap *collaborators*
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/atiqur-rahman-pro">
+        <img src="https://github.com/atiqur-rahman-pro.png" width="100px;" alt="atiqur rahman"/><br />
+        <sub><b>atiqur rahman</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/SemTiOne">
+        <img src="https://github.com/SemTiOne.png" width="100px;" alt="Dane Parin"/><br />
+        <sub><b>Dane Parin</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/gaoharimran29-glitch">
+        <img src="https://github.com/gaoharimran29-glitch.png" width="100px;" alt="Gaohar Imran"/><br />
+        <sub><b>Gaohar Imran</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/ghostfix-pm">
+        <img src="https://github.com/ghostfix-pm.png" width="100px;" alt="ghostfix-pm"/><br />
+        <sub><b>ghostfix-pm</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/jagjitkaur0000">
+        <img src="https://github.com/jagjitkaur0000.png" width="100px;" alt="jagjitkaur0000"/><br />
+        <sub><b>jagjitkaur0000</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/sara-czasak">
+        <img src="https://github.com/sara-czasak.png" width="100px;" alt="Sara Czasak"/><br />
+        <sub><b>Sara Czasak</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/VidyavathiGK">
+        <img src="https://github.com/VidyavathiGK.png" width="100px;" alt="Vidyavathi GK"/><br />
+        <sub><b>Vidyavathi GK</b></sub>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/Onion0121">
+        <img src="https://github.com/Onion0121.png" width="100px;" alt="Yassin Azzouzi"/><br />
+        <sub><b>Yassin Azzouzi</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+</div>
 <br>
 
 ```bash
 pip install py-simple-wrap
 ```
+
+This installs the lightweight core; a few modules need extra packages — see [Installation](QUICKSTART.md#installation) in the Quickstart for the full list.
  
 ```python
 from py_simple import make_blank_file, miles_to_km, is_valid_email
- 
+
 make_blank_file("notes.txt")
-print(miles_to_km(26.2))                    # 42.16...
+print(miles_to_km(26.2))  # 42.16...
 print(is_valid_email("hello@example.com"))  # True
 ```
  
 > Full walkthrough in [QUICKSTART.md](QUICKSTART.md), or browse the **[documentation site](https://sara-czasak.github.io/py-simple-wrap/docs/)**.
  
 <br>
+
 ## 😰 → 😎 See the difference
  
 **The traditional way**
 ```python
 import requests
 from bs4 import BeautifulSoup
- 
+
 try:
-    response = requests.get('https://github.com', timeout=10)
+    response = requests.get("https://github.com", timeout=10)
     response.raise_for_status()
-    page = BeautifulSoup(response.content, 'html.parser')
+    page = BeautifulSoup(response.content, "html.parser")
     title = page.title.string
 except Exception as e:
     print("The site is down or address is invalid.")
 ```
  
 **The py-simple-wrap way**
+
+> Needs the `[web]` extra: `pip install py-simple-wrap[web]`
+
 ```python
 from py_simple import get_page_title
  
@@ -93,6 +162,14 @@ print(get_page_title("https://github.com"))
 ```
  
 <br>
+
+## 🧩 Project tutorials
+
+Want to see modules working together? Check out the [project-based tutorials](docs/tutorial/) — small, fun builds that combine 2+ modules into something you'd actually want to make.
+
+## 📣 Share what you build
+
+Made something with py-simple-wrap? Post about it and tag **#py-simple-wrap**. I'd love to see it!
 
 ## ⭐ If py-simple-wrap made something easier for you
  
@@ -104,10 +181,10 @@ Whether you've used one function or ten, your feedback decides what
 gets built next. **[Take the 2-minute survey →](https://docs.google.com/forms/d/e/1FAIpQLSd3P4QCW9s-4izQlklN6q7kDGMlrgYe1I19ae6lAee5Mjbs5A/viewform?usp=header)**
 
 
-<div align="center">
+<div align="center" markdown="1">
 
 **[Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [License](LICENSE.md)**
  
-<sub>Built for beginners, grown by 30+ contributors ✨</sub>
+<sub>Built for beginners, grown by 60+ contributors ✨</sub>
  
 </div>

@@ -3,12 +3,11 @@ easy_data_visualization aims to simplify data visualization.
 without requiring users to memorize every chart type or matplotlib function.
 """
 
-import matplotlib.pyplot as plt
-from typing import Literal
 from collections import Counter
+from typing import Literal
 
 
-def plot_data(X:list, Y: list = None):
+def plot_data(X: list, Y: list | None = None):
     """
     Infers the type of the given data (quantitative or categorical) and
     automatically plots the most appropriate chart(s) for it, handling
@@ -55,10 +54,12 @@ def plot_data(X:list, Y: list = None):
             plt.show()
             ```
     """
+    import matplotlib.pyplot as plt
 
     # Figure out whether each series is "quantitative" or "categorical"
     # so we can look up which chart(s) make sense for this combination.
     type_X = _infer_type(X)
+
     type_Y = _infer_type(Y) if Y is not None else None
 
     CHART_SUGGESTIONS = {
@@ -70,25 +71,25 @@ def plot_data(X:list, Y: list = None):
     }
 
     charts = CHART_SUGGESTIONS[(type_X, type_Y)]
-    chart_index = 0 # tracks which subplot slot to draw into next
+    chart_index = 0  # tracks which subplot slot to draw into next
 
-    fig, axes = plt.subplots(1,2, figsize=(10,5))
+    _fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 
-    if 'histogram' in charts:
+    if "histogram" in charts:
         ax = axes.flat[chart_index]
         ax.hist(X)
         ax.set_title("Histogram")
-        ax.spines[['top', 'right']].set_visible(False)
+        ax.spines[["top", "right"]].set_visible(False)
         chart_index += 1
 
-    if 'line' in charts:
+    if "line" in charts:
         ax = axes.flat[chart_index]
         ax.plot(X)
         ax.set_title("Line chart")
-        ax.spines[['top', 'right']].set_visible(False)
+        ax.spines[["top", "right"]].set_visible(False)
         chart_index += 1
 
-    if 'barchart' in charts:
+    if "barchart" in charts:
         ax = axes.flat[chart_index]
 
         if Y is None:
@@ -98,23 +99,23 @@ def plot_data(X:list, Y: list = None):
             # Two series: put the categorical one on the x-axis and the
             # quantitative one as the bar height, regardless of which
             # argument (X or Y) is which.
-            if((type_X, type_Y) == ("categorical", "quantitative")):
+            if (type_X, type_Y) == ("categorical", "quantitative"):
                 ax.bar(X, Y)
             else:
                 ax.bar(Y, X)
 
         ax.set_title("Bar chart")
-        ax.spines[['top', 'right']].set_visible(False)
+        ax.spines[["top", "right"]].set_visible(False)
         chart_index += 1
 
-    if 'pie' in charts:
+    if "pie" in charts:
         ax = axes.flat[chart_index]
         counts = Counter(X)
-        ax.pie(counts.values(), labels=counts.keys(), autopct='%1.1f%%')
+        ax.pie(counts.values(), labels=counts.keys(), autopct="%1.1f%%")
         ax.set_title("Pie chart")
         chart_index += 1
 
-    if 'scatter' in charts:
+    if "scatter" in charts:
         ax = axes.flat[chart_index]
         ax.scatter(X, Y)
         ax.set_title("Scatter plot")
@@ -127,6 +128,56 @@ def plot_data(X:list, Y: list = None):
 
     print("Plotting data...")
     plt.show()
+
+
+def plot_box_plot(data: list[float]) -> None:
+    """
+    Displays a box-and-whisker plot for a numeric data series.
+
+    A box plot shows the middle half of the data, the median, and possible
+    outliers, making it useful for quickly understanding the distribution of
+    a list of numbers.
+
+    Args:
+        data (list[float]): The numeric values to visualize.
+
+    Returns:
+        None: The box plot is rendered directly via `plt.show()`.
+
+    Raises:
+        ValueError: If `data` is empty.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import plot_box_plot
+
+            plot_box_plot([12, 14, 15, 15, 16, 18, 30])
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import matplotlib.pyplot as plt
+
+            data = [12, 14, 15, 15, 16, 18, 30]
+            fig, ax = plt.subplots()
+            ax.boxplot(data)
+            ax.set_title("Box plot")
+            plt.show()
+            ```
+    """
+    import matplotlib.pyplot as plt
+
+    if not data:
+        raise ValueError("The data series cannot be empty.")
+
+    _, ax = plt.subplots()
+    ax.boxplot(data)
+    ax.set_title("Box plot")
+    ax.set_ylabel("Values")
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.show()
+
 
 def _infer_type(series) -> Literal["quantitative", "categorical"]:
     """
@@ -173,8 +224,46 @@ def _infer_type(series) -> Literal["quantitative", "categorical"]:
         raise ValueError("The series cannot be empty.")
 
     is_quantitative = all(
-        isinstance(x, (int, float)) and not isinstance(x, bool)
-        for x in series
+        isinstance(x, (int, float)) and not isinstance(x, bool) for x in series
     )
     return "quantitative" if is_quantitative else "categorical"
 
+
+def get_data_range(data: list[int | float]) -> tuple[int | float, int | float]:
+    """
+    Calculates the minimum and maximum values of a numeric data series,
+    providing a quick summary range for data inspection before plotting.
+
+    Args:
+        data (list): A list of quantitative (int or float) values.
+
+    Returns:
+        tuple: A tuple containing the minimum and maximum values (min, max).
+
+    Raises:
+        ValueError: If `data` is empty or contains non-numeric values.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple.easy_data_visualization import get_data_range
+
+            min_val, max_val = get_data_range([5, 2, 9, 1, 7])
+            ```
+
+        === "The Traditional Way"
+            ```python
+            data = [5, 2, 9, 1, 7]
+            if not data:
+                raise ValueError("Data series cannot be empty.")
+            min_val = min(data)
+            max_val = max(data)
+            ```
+    """
+    if not data:
+        raise ValueError("The data series cannot be empty.")
+
+    if not all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in data):
+        raise ValueError("All elements in the data series must be numbers.")
+
+    return (min(data), max(data))

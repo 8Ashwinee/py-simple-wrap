@@ -7,7 +7,7 @@ labels: testing, good first issue, help wanted, good-first-issue
 > I'm looking for a contributor to help improve the reliability of `py-simple-wrap` by adding unit tests for the **[{{MODULE_NAME}} module](https://github.com/sara-czasak/py-simple-wrap/blob/main/py_simple_package/src/py_simple/{{MODULE_NAME}}.py)**! 
 >
 > **Tasks**:
-> - [ ] Add missing tests in [test_{{MODULE_NAME}}.py](https://github.com/sara-czasak/py-simple-wrap/tree/main/tests) (You can see which lines aren't covered here: [Codecov](https://app.codecov.io/github/sara-czasak/py-simple-wrap/blob/main/py_simple_package%2Fsrc%2Fpy_simple%2F{{MODULE_NAME}}.py)
+> - [ ] Add missing tests in [test_{{TEST_NAME}}.py](https://github.com/sara-czasak/py-simple-wrap/tree/main/tests) (You can see which lines aren't covered here: [Codecov](https://app.codecov.io/github/sara-czasak/py-simple-wrap/blob/main/py_simple_package%2Fsrc%2Fpy_simple%2F{{MODULE_NAME}}.py)
 >
 > **How to Help**:
 > Please read my **[CONTRIBUTING.md](https://github.com/sara-czasak/py-simple-wrap/blob/main/CONTRIBUTING.md)** before you start. It has step-by-step instructions for branching and pushing!

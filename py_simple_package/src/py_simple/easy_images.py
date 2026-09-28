@@ -3,9 +3,11 @@ easy_images is meant to simplify common image processing tasks
 (resizing, converting, rotating, and inspecting images) using Pillow.
 """
 
+from __future__ import annotations
 import os
-
-from PIL import Image, UnidentifiedImageError
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from PIL import Image
 
 
 class ImageProcessingError(Exception):
@@ -19,6 +21,7 @@ class ImageProcessingError(Exception):
     Args:
         message (str): Description of what went wrong.
     """
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
@@ -27,6 +30,8 @@ class ImageProcessingError(Exception):
 def _open_image(input_path: str) -> Image.Image:
     """Open an image file, raising ImageProcessingError with a clear
     message instead of letting Pillow's own exceptions leak through."""
+    from PIL import Image, UnidentifiedImageError
+
     if not os.path.isfile(input_path):
         raise ImageProcessingError(f"\nFile '{input_path}' not found.")
     try:
@@ -67,6 +72,52 @@ def resize_image(input_path: str, output_path: str, width: int, height: int):
         img.resize((width, height)).save(output_path)
 
 
+def create_thumbnail(
+    input_path: str, output_path: str, max_width: int, max_height: int
+):
+    """
+    Create a thumbnail that fits within the given dimensions.
+
+    The image keeps its original aspect ratio and is never enlarged.
+
+    Args:
+        input_path (str): Path of the source image.
+        output_path (str): Path to save the thumbnail to.
+        max_width (int): Maximum thumbnail width in pixels.
+        max_height (int): Maximum thumbnail height in pixels.
+
+    Raises:
+        ValueError: If either maximum dimension is not a positive integer.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import create_thumbnail
+
+            create_thumbnail("photo.jpg", "thumbnail.jpg", 320, 320)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            from PIL import Image
+
+            with Image.open("photo.jpg") as img:
+                img.thumbnail((320, 320))
+                img.save("thumbnail.jpg")
+            ```
+    """
+    dimensions = (max_width, max_height)
+    if any(
+        not isinstance(value, int) or isinstance(value, bool) or value < 1
+        for value in dimensions
+    ):
+        raise ValueError("Maximum width and height must be positive integers.")
+
+    with _open_image(input_path) as img:
+        img.thumbnail((max_width, max_height))
+        img.save(output_path)
+
+
 def convert_image(input_path: str, output_path: str):
     """
     Convert an image to a different format based on the output file's
@@ -96,7 +147,9 @@ def convert_image(input_path: str, output_path: str):
     with _open_image(input_path) as img:
         # JPEG has no alpha channel; converting to RGB first avoids Pillow
         # raising on images that have one (e.g. a PNG with transparency).
-        if img.mode in ("RGBA", "P") and output_path.lower().endswith((".jpg", ".jpeg")):
+        if img.mode in ("RGBA", "P") and output_path.lower().endswith(
+            (".jpg", ".jpeg")
+        ):
             img = img.convert("RGB")
         img.save(output_path)
 

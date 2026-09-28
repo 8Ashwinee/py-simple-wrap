@@ -30,7 +30,7 @@ Aiko
 
 `shuffle_list()` returned a new list with the entries in random order, leaving `entries` unchanged.
 
-`pick_random_item()` selected one item from the shuffled list. The module also includes `roll_dice()` for a random number from 1 to a chosen number of sides, `flip_coin()` for `Heads` or `Tails`, and `random_int()` for an integer between two inclusive limits.
+`pick_random_item()` selected one item from the shuffled list. The module also includes `roll_dice()` for a random number from 1 to a chosen number of sides, `flip_coin()` for `Heads` or `Tails`, and `random_int()` for an integer between two inclusive limits, and `random_date()` for a date between two bounds.
 
 ## Why use these helpers?
 

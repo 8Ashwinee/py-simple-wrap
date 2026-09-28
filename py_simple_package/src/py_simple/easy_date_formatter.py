@@ -3,7 +3,7 @@ easy_date_formatter is meant to simplify getting formatted dates.
 Built on top of the datetime module — no more memorizing strftime codes.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 # ── Format registry (strftime pattern → readable name) ──────────────
@@ -13,6 +13,7 @@ _FORMATS = {
     "mm-dd-yyyy": "%m-%d-%Y",
     "dd/mm/yyyy": "%d/%m/%Y",
     "mm/dd/yyyy": "%m/%d/%Y",
+    "ISO-8601": "%Y-%m-%dT%H:%M:%SZ",
 }
 
 
@@ -59,6 +60,7 @@ def _get_future_date(num_days_from_now: int):
 
 
 # ── Pretty dates ────────────────────────────────────────────────────
+
 
 def get_pretty_date():
     """
@@ -147,6 +149,7 @@ def get_future_pretty_date(num_days_from_now: int):
 
 
 # ── Hyphenated formats (DD-MM-YYYY or MM-DD-YYYY) ───────────────────
+
 
 def dd_mm_yyyy():
     """
@@ -320,6 +323,7 @@ def future_mm_dd_yyyy(num_days_from_now: int):
 
 # ── Slashed formats (DD/MM/YYYY or MM/DD/YYYY) ──────────────────────
 
+
 def slash_dd_mm_yyyy():
     """
     Returns the current date in 'DD/MM/YYYY' format.
@@ -488,3 +492,96 @@ def future_slash_mm_dd_yyyy(num_days_from_now: int):
             ```
     """
     return _format_date(_get_future_date(num_days_from_now), "mm/dd/yyyy")
+
+
+# ── ISO-8601 formats (YYYY-MM-DDTHH:MM:SSZ) ──────────────────────
+
+
+def iso_8601():
+    """
+    Returns the current UTC date and time in ISO-8601 format.
+
+    Returns:
+        str: Current UTC date and time as 'YYYY-MM-DDTHH:MM:SSZ'
+             (e.g., '2026-07-31T14:22:05Z').
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import iso_8601
+
+            now = iso_8601()  # -> "2026-07-31T14:22:05Z"
+            ```
+
+        === "The Traditional Way"
+            ```python
+            from datetime import datetime, timezone
+
+            now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            ```
+    """
+    return _format_date(datetime.now(timezone.utc), "ISO-8601")
+
+
+def past_iso_8601(num_days_ago: int):
+    """
+    Returns a past UTC date and time in ISO-8601 format.
+
+    Args:
+        num_days_ago (int): Number of days to subtract from today.
+
+    Returns:
+        str: Past UTC date and time as 'YYYY-MM-DDTHH:MM:SSZ'.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import past_iso_8601
+
+            last_week = past_iso_8601(7)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            from datetime import datetime, timedelta, timezone
+
+            last_week = (datetime.now(timezone.utc) - timedelta(days=7)).strftime(
+                "%Y-%m-%dT%H:%M:%SZ"
+            )
+            ```
+    """
+    return ((datetime.now(timezone.utc) -
+            timedelta(days=num_days_ago))
+            .strftime("%Y-%m-%dT%H:%M:%SZ"))
+
+
+def future_iso_8601(num_days_from_now: int):
+    """
+    Returns a future UTC date and time in ISO-8601 format.
+
+    Args:
+        num_days_from_now (int): Number of days to add to today.
+
+    Returns:
+        str: Future UTC date and time as 'YYYY-MM-DDTHH:MM:SSZ'.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import future_iso_8601
+
+            next_week = future_iso_8601(7)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            from datetime import datetime, timedelta, timezone
+
+            next_week = (datetime.now(timezone.utc) + timedelta(days=7)).strftime(
+                "%Y-%m-%dT%H:%M:%SZ"
+            )
+            ```
+    """
+    return ((datetime.now(timezone.utc) +
+            timedelta(days=num_days_from_now))
+            .strftime("%Y-%m-%dT%H:%M:%SZ"))

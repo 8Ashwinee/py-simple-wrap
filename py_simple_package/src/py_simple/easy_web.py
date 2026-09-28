@@ -1,14 +1,8 @@
 """
 easy_web is built to simplify getting information from the web.
 """
-import requests
-from bs4 import BeautifulSoup
 
-
-_TAGS = {
-    'a': 'href',
-    'img': 'src'
-}
+_TAGS = {"a": "href", "img": "src"}
 
 
 class SomethingWentWrongError(Exception):
@@ -25,6 +19,7 @@ class SomethingWentWrongError(Exception):
         message (str): Description of what went wrong, usually including
             the original error message.
     """
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
@@ -61,9 +56,12 @@ def get_page_content(url: str) -> str | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
         if response.ok:
-            return BeautifulSoup(response.text, 'html.parser').prettify()
+            return BeautifulSoup(response.text, "html.parser").prettify()
         else:
             return None
     except Exception as e:
@@ -102,6 +100,8 @@ def is_page_up(url: str) -> bool:
             ```
     """
     try:
+        import requests
+
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         return bool(response.status_code == 200)
@@ -143,9 +143,12 @@ def get_page_title(url: str) -> str | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        page = BeautifulSoup(response.content, 'html.parser')
+        page = BeautifulSoup(response.content, "html.parser")
         title = page.title.string
         return title
     except Exception as e:
@@ -186,11 +189,14 @@ def count_links(url: str) -> int | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         link_count = 0
         if response is not None:
-            for link in soup.find_all('a'):
+            for link in soup.find_all("a"):
                 link_count += 1
             return link_count
     except Exception as e:
@@ -230,12 +236,15 @@ def get_link_list(url: str) -> list[str] | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         link_list = []
         if response is not None:
-            for link in soup.find_all('a'):
-                link_list.append(link.get('href'))
+            for link in soup.find_all("a"):
+                link_list.append(link.get("href"))
             return link_list
     except Exception as e:
         raise SomethingWentWrongError(f"\n\n\nERROR: {e}") from None
@@ -274,12 +283,13 @@ def count_tags(url: str, tag: str) -> int | None:
             ```
     """
     if tag not in _TAGS:
-        raise ValueError(
-            f"Unsupported tag: '{tag}'. Allowed tags: {', '.join(_TAGS)}"
-        )
+        raise ValueError(f"Unsupported tag: '{tag}'. Allowed tags: {', '.join(_TAGS)}")
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         if response is not None:
             return len(soup.find_all(tag))
     except Exception as e:
@@ -324,12 +334,13 @@ def get_tag_list(url: str, tag: str) -> list[str] | None:
             ```
     """
     if tag not in _TAGS:
-        raise ValueError(
-            f"Unsupported tag: '{tag}'. Allowed tags: {', '.join(_TAGS)}"
-        )
+        raise ValueError(f"Unsupported tag: '{tag}'. Allowed tags: {', '.join(_TAGS)}")
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         attribute = _TAGS[tag]
         tag_list = []
         if response is not None:
@@ -395,13 +406,16 @@ def get_meta_description(url: str) -> list[str] | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         meta_description_list = []
         if response is not None:
-            for meta in soup.find_all('meta'):
-                if meta.get('content') is not None:
-                    meta_description_list.append(meta.get('content'))
+            for meta in soup.find_all("meta"):
+                if meta.get("content") is not None:
+                    meta_description_list.append(meta.get("content"))
             return meta_description_list
     except Exception as e:
         raise SomethingWentWrongError(f"\n\n\nERROR: {e}") from None
@@ -442,16 +456,18 @@ def get_all_headers(url: str) -> list[str] | None:
             ```
     """
     try:
+        import requests
+        from bs4 import BeautifulSoup
+
         response = requests.get(url, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, "html.parser")
         header_list = []
         clean_headers = []
         if response is not None:
-            for header in soup.find_all('header'):
+            for header in soup.find_all("header"):
                 header_list.append(header.text)
             for header in header_list:
                 clean_headers.append(header.strip().replace("\n", ""))
             return clean_headers
     except Exception as e:
         raise SomethingWentWrongError(f"\n\n\nERROR: {e}") from None
-

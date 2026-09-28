@@ -24,6 +24,7 @@ plugins:
             show_root_heading: true
 
 markdown_extensions:
+  - md_in_html
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.superfences
@@ -52,6 +53,7 @@ nav:
             - Tutorial 1: tutorial/easy_json.md
             - Tutorial 2: tutorial/easy_json2.md
         - Easy Lists: tutorial/easy_lists.md
+        - Easy Logging: tutorial/easy_logging.md
         - Easy Math:
             - Tutorial 1: tutorial/easy_math.md
             - Tutorial 2: tutorial/easy_math2.md
@@ -69,6 +71,7 @@ nav:
       - Project-Based Tutorials:
           - Mystery Number Quest: tutorial/easy_random_game_project.md
           - Signup Validation Check: tutorial/signup-validation-project.md
+          - Dice Roll Arena: tutorial/dice-roll-arena-project.md
   - How To:
       - Contributing: how-to/contributing.md
   - Contributor Hub:
@@ -94,6 +97,7 @@ nav:
       - Easy Images: reference/easy_images.md
       - Easy Json: reference/easy_json.md
       - Easy Lists: reference/easy_lists.md
+      - Easy Logging: reference/easy_logging.md
       - Easy Math: reference/easy_math.md
       - Easy Numbers: reference/easy_numbers.md
       - Easy Random: reference/easy_random.md

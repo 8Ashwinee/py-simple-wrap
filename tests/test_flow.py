@@ -9,13 +9,36 @@ from py_simple_package.src.py_simple.easy_flow import (
     retry,
     run_py_file,
     run_py_file_safe,
+    run_py_string,
+    run_with_fallback,
+    run_with_delay,
+    run_if,
     time_function_call,
     time_it,
+    wait_until,
 )
 
 
+class TestRunPyString:
+    @pytest.mark.parametrize(
+        "code_string,expected_output",
+        [
+            ("print('hello world')", "hello world\n"),
+            ("a = 1 + 1\nprint(a)", "2\n"),
+        ],
+    )
+    def test_runs_successfully(self, capsys, code_string, expected_output):
+        run_py_string(code_string)
+        captured = capsys.readouterr()
+        assert captured.out == expected_output
+
+    def test_script_error_raises(self):
+        with pytest.raises(EasyFlowError) as exc_info:
+            run_py_string("raise ValueError('boom')")
+        assert "boom" in str(exc_info.value)
+
+
 class TestEasyFlowError:
-    
     def test_is_exception(self):
         """Tests if it is an exception."""
         assert issubclass(EasyFlowError, Exception)
@@ -123,6 +146,7 @@ class TestTimeFunctionCall:
 
     def test_function_error_raises_easyflowerror(self):
         """Checks if exception are wrapped correctly."""
+
         def boom():
             raise ValueError("bad function")
 
@@ -134,6 +158,7 @@ class TestTimeFunctionCall:
 class TestTimeIt:
     def test_returns_original_result(self):
         """Should return whatever the wrapped function returns."""
+
         @time_it
         def add(a, b):
             return a + b
@@ -142,6 +167,7 @@ class TestTimeIt:
 
     def test_prints_timing(self, capsys):
         """Should print the function's name and elapsed time."""
+
         @time_it
         def add(a, b):
             return a + b
@@ -153,6 +179,7 @@ class TestTimeIt:
 
     def test_supports_args_and_kwargs(self):
         """Should forward both positional and keyword arguments."""
+
         @time_it
         def greet(name, greeting="Hello"):
             return f"{greeting}, {name}!"
@@ -255,3 +282,78 @@ class TestRetry:
             retry(always_fails, attempts=1)
 
         assert sleep_calls == []
+
+
+def test_run_with_fallback():
+    assert run_with_fallback(int, 0, "invalid") == 0
+    assert run_with_fallback(int, 0, "42") == 42
+
+
+def test_run_with_delay():
+    def sample_add(a, b):
+        return a + b
+
+    # Test that it successfully runs after a tiny delay and returns correct math
+    result = run_with_delay(0.01, sample_add, 5, 5)
+    assert result == 10
+
+
+def test_run_if_runs_function_when_condition_is_true():
+    assert run_if(True, max, 3, 8) == 8
+
+
+def test_run_if_returns_default_when_condition_is_false():
+    assert run_if(False, max, 3, 8, default_value=0) == 0
+
+
+def test_run_if_does_not_call_function_when_condition_is_false():
+    calls = []
+
+    def record_call():
+        calls.append("called")
+
+    assert run_if(False, record_call) is None
+    assert calls == []
+
+
+def test_run_if_passes_keyword_arguments():
+    def greet(name, greeting="Hello"):
+        return f"{greeting}, {name}!"
+
+    assert run_if(True, greet, "World", greeting="Hi") == "Hi, World!"
+
+
+def test_wait_until_returns_true_when_condition_is_ready():
+    calls = []
+
+    def condition():
+        calls.append(1)
+        return len(calls) == 3
+
+    assert wait_until(condition, timeout=1, interval=0) is True
+    assert len(calls) == 3
+
+
+def test_wait_until_returns_false_after_timeout(monkeypatch):
+    times = iter([0, 0.2, 0.4, 0.6])
+    sleep_calls = []
+
+    monkeypatch.setattr(time, "time", lambda: next(times))
+    monkeypatch.setattr(time, "sleep", lambda delay: sleep_calls.append(delay))
+
+    assert wait_until(lambda: False, timeout=0.5, interval=0.1) is False
+    assert sleep_calls == [0.1, 0.1]
+
+
+def test_wait_until_checks_condition_after_timeout(monkeypatch):
+    times = iter([0, 1])
+    calls = []
+
+    monkeypatch.setattr(time, "time", lambda: next(times))
+
+    def condition():
+        calls.append(1)
+        return len(calls) == 1
+
+    assert wait_until(condition, timeout=0.5, interval=0.1) is True
+    assert len(calls) == 1

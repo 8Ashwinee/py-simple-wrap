@@ -56,3 +56,29 @@ urls = extract_urls(text)
 ```
 
 This is much easier to understand than writing and maintaining the regular expression patterns yourself.
+
+## Extract Hashtag Names
+
+Use `extract_hashtag_names()` when you want names without the leading `#`:
+
+```python
+from py_simple.easy_regex import extract_hashtag_names
+
+names = extract_hashtag_names("Hello #Python #hello_world #Python!")
+# -> ['Python', 'hello_world', 'Python']
+```
+
+The helper preserves case, order, and duplicates. Names may contain Unicode
+alphanumeric characters and underscores, including digits at the start.
+Punctuation ends a name. Empty text or text without hashtags returns `[]`.
+Hashes attached to a preceding word or another hash are ignored:
+
+```python
+extract_hashtag_names("word#tag ##tag #valid")
+# -> ['valid']
+```
+
+This helper follows Python's Unicode `\w` matching: combining marks are not
+included and no Unicode normalization is performed. It is not a validator for
+any particular social platform. The existing
+`py_simple.easy_regex.extract_hashtags()` continues to return tags with `#`.

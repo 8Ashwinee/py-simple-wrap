@@ -198,7 +198,7 @@ def is_prime(number: int) -> bool:
             ```
     """
     if number > 0:
-        limit = int((number ** 0.5) + 1)
+        limit = int((number**0.5) + 1)
     else:
         return False
     if number < 2:
@@ -305,6 +305,39 @@ def greatest_common_divisor(a: int, b: int) -> int:
         a, b = b, a % b
 
     return abs(a)
+
+
+def least_common_multiple(a: int, b: int) -> int:
+    """
+    Returns the least common multiple (LCM) of two numbers.
+
+    Args:
+        a (int): First number.
+        b (int): Second number.
+
+    Returns:
+        int: Least common multiple.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import least_common_multiple
+
+            result = least_common_multiple(12, 18)  # -> 36
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import math
+
+            a, b = 12, 18
+            result = abs(a * b) // math.gcd(a, b)
+            ```
+    """
+    if a == 0 or b == 0:
+        return 0
+
+    return abs(a * b) // greatest_common_divisor(a, b)
 
 
 def clamp(number: float, minimum: float, maximum: float) -> float:

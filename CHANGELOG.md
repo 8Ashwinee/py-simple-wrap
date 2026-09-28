@@ -9,6 +9,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-09-25
+
+### Added
+- Added a circular logo to the README header ([@sara-czasak](https://github.com/sara-czasak))
+
+### Changed
+- **Breaking:** `pip install py-simple-wrap` now installs a lightweight core instead of every dependency for every module. Heavy per-module dependencies (`matplotlib`, `pygame-ce`, `Pillow`, `qrcode`, `GitPython`, `python-benedict`, `pydantic`, `langchain-core`) moved out of the default install into per-module extras (`ai`, `game`, `viz`, `images`, `web`, `config`, `json`); `pip install py-simple-wrap[all]` restores the previous batteries-included install. `import py_simple` no longer requires any of these packages to be installed — each heavy import is now deferred to the specific function that uses it ([@sara-czasak](https://github.com/sara-czasak))
+
+### Fixed
+- Fixed the docs site rendering the README's title, badges, "Modules at a glance" table, and collaborators section as raw unprocessed text instead of real HTML — `mkdocs.yml` was missing the `md_in_html` extension needed to parse Markdown nested inside `<div>` blocks ([@sara-czasak](https://github.com/sara-czasak))
+- Removed the redundant GitHub-style nav bar from docs-site pages (README, Quickstart, Contributing, Contributors, License) via `include-markdown` start markers, since the site already has its own navigation ([@sara-czasak](https://github.com/sara-czasak))
+
+## [0.6.1] - 2026-09-17
+### Fixed
+- Cleaned up a stray leftover table row in the README's module grid ([@sara-czasak](https://github.com/sara-czasak))
+- Fixed the "😰 → 😎 See the difference" heading rendering as literal `## ` text instead of a heading — it immediately followed a `<br>` HTML tag with no blank line between them, which breaks Markdown heading parsing on GitHub ([@sara-czasak](https://github.com/sara-czasak))
+
+## [0.6.0] - 2026-09-17
+### Added
+- Migrated the project from Poetry/pip to `uv` for dependency management, with `astral-sh/setup-uv` wired into CI and both `uv sync`/`uv run` and a plain `pip install -e .[test,docs]` path documented in `CONTRIBUTING.md`, including local MkDocs preview instructions ([@Yuvrajup](https://github.com/Yuvrajup))
+- Added the `easy_logging` module (`log_step`, `log_function`) to the public API, plus `clear_log_file` for emptying a log file's contents ([@sara-czasak](https://github.com/sara-czasak), [@dave123981](https://github.com/dave123981))
+- Added `mean` and `correlation_coefficient` (Pearson) to `easy_stats` ([@Voyagerroc-Lab](https://github.com/Voyagerroc-Lab), [@9anna-na](https://github.com/9anna-na))
+- Added `random_bool` to `easy_random`, along with a simple `generate_simple_password` helper — named to avoid colliding with the existing, cryptographically-secure `easy_generator.generate_password` ([@ege-arhan](https://github.com/ege-arhan), [@NANDINI-7777](https://github.com/NANDINI-7777))
+- Added `update_screen` and `fill_background` to `easy_game`'s public API. `is_key_pressed` was also added to the module but isn't exported yet — it doesn't have test coverage, so it's reachable via `from py_simple.easy_game import is_key_pressed` directly for now ([@Utkarsh3725](https://github.com/Utkarsh3725), [@VidyavathiGK](https://github.com/VidyavathiGK))
+- Added `run_with_delay` and `run_with_fallback` to `easy_flow` ([@VidyavathiGK](https://github.com/VidyavathiGK))
+- Added 11 new functions to `easy_math` (`is_armstrong_number`, `is_triangular_number`, `is_harshad_number`, `digit_count`, `reverse_digits`, `is_abundant_number`, `distance_between_points`, `midpoint`, `sum_of_squares`, `calculate_simple_interest`, `collatz_sequence`) ([@Yuktheshwarbhat](https://github.com/Yuktheshwarbhat))
+- Added `extract_mentions` and `clean_extra_whitespace` to `easy_regex`'s public API. `extract_hashtags` was also added to the module, but isn't exported — it collides with the existing `easy_text.extract_hashtags`, so it stays reachable via `from py_simple.easy_regex import extract_hashtags` directly ([@Yuktheshwarbhat](https://github.com/Yuktheshwarbhat))
+- Added a "Share what you build" section and a `#py-simple-wrap` mention to the README ([@sara-czasak](https://github.com/sara-czasak))
+- Added a "Smart Web Contact Scraper" project-based tutorial ([@Yuktheshwarbhat](https://github.com/Yuktheshwarbhat))
+
+### Fixed
+- Fixed the `away_status.yml` workflow, which was missing a checkout step and failing on every run ([@sara-czasak](https://github.com/sara-czasak))
+- Fixed a Codecov coverage gap in `easy_regex` ([@gaoharimran29-glitch](https://github.com/gaoharimran29-glitch))
+- Brought `easy_ai` to full test coverage by adding tests for `EasyAgent` and the remaining `get_model` provider branches ([@Yuvrajup](https://github.com/Yuvrajup))
+- Removed a duplicate `tests/test_easy_random.py`, consolidating its unique coverage into the existing `tests/test_random.py` ([@HarshRajSinghania](https://github.com/HarshRajSinghania))
+
+## [0.5.0] - 2026-09-08
+### Added
+- `easy_ai`'s `get_model`, `ask_ai`, `summarize_text`, and `translate_text` are now part of the public API (`from py_simple import ...`), for connecting to OpenAI, Ollama, Anthropic, Google, and Mistral chat models without hand-rolling each provider's SDK setup, with full test coverage, a reference page, and a tutorial. The `EasyAgent` class is still work-in-progress and not exported ([@VidyavathiGK](https://github.com/VidyavathiGK), [@Larslllllll](https://github.com/Larslllllll), [@Ctrl-Yam](https://github.com/Ctrl-Yam), [@sara-czasak](https://github.com/sara-czasak))
+- `easy_sql`'s query/write helpers (`run_insert`, `run_select`, `conditional_run_select`, `run_update`, `run_delete`, `delete_all_from_table`, `EasySqlError`) are now part of the public API — the `ExperimentalWarning` added in 0.4.0 has been removed now that they have full test coverage ([@sara-czasak](https://github.com/sara-czasak), [@AhmadBilalDSA](https://github.com/AhmadBilalDSA))
+- Added `get_json_keys` to `easy_json`, for pulling the top-level keys out of a dict/JSON structure ([@Saturday-boyi](https://github.com/Saturday-boyi))
+- Added `extract_hex_colors` to `easy_regex` and `pick_random_items` to `easy_random`, for selecting multiple random items at once ([@be-student](https://github.com/be-student))
+- Added `z_score` and `interquartile_range` to `easy_stats` ([@Steve99bs](https://github.com/Steve99bs))
+- Added `create_thumbnail` to `easy_images` ([@be-student](https://github.com/be-student))
+- Added `generate_slug` to `easy_generator`, for turning a string into a URL-safe slug ([@BirgirSJakobsson](https://github.com/BirgirSJakobsson))
+- Added `is_perfect_square` to `easy_math` ([@be-student](https://github.com/be-student))
+- Added `is_valid_creditcard`, `is_valid_phone_number`, `is_valid_ipv4`, `is_valid_ipv6`, `is_valid_json`, and `compare_json` to `easy_validator` ([@ohnsh](https://github.com/ohnsh), [@dave123981](https://github.com/dave123981), [@Killbill584](https://github.com/Killbill584), [@Larslllllll](https://github.com/Larslllllll))
+- Added `to_title_case` to `easy_strings`, `draw_text` and `fill_background` to `easy_game`, `run_with_timeout` to `easy_async`, and `run_py_string` to `easy_flow` — not yet part of the public API, but reachable via `from py_simple.<module> import ...` directly ([@UroojFatima-052](https://github.com/UroojFatima-052), [@VidyavathiGK](https://github.com/VidyavathiGK))
+- Added an "away status" issue template and workflow, an autoassign-on-request workflow for collaborators, and a stale-PR-closing workflow, so contributor-facing automation keeps running while Sara's at work ([@sara-czasak](https://github.com/sara-czasak))
+
+### Changed
+- Standardized `easy_sql`'s error handling around `EasySqlError` as part of removing the experimental warnings ([@sara-czasak](https://github.com/sara-czasak))
+
+### Fixed
+- Fixed a bug in `easy_strings` ([@sara-czasak](https://github.com/sara-czasak))
+- Removed a stray duplicate `src/` directory left over from an earlier package restructure ([@sara-czasak](https://github.com/sara-czasak))
+
 ## [0.4.1] - 2026-08-31
 ### Added
 - Added a feedback-survey call to action to the landing page, matching the one already on the README ([@sara-czasak](https://github.com/sara-czasak))
@@ -31,7 +88,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Updated `MODULES.md` and the README's module menu to include `easy_archive`, `easy_config`, and `easy_random`
 ### Fixed
 - Fixed a bug in `easy_file_manager` and a matching exception-name mismatch in its tests ([@sara-czasak](https://github.com/sara-czasak))
-
 
 ## [0.3.5] - 2026-08-21
 ### Added

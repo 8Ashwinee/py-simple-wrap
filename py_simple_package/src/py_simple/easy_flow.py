@@ -18,6 +18,7 @@ class EasyFlowError(Exception):
     Args:
         message (str): Human-readable description of what went wrong.
     """
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
@@ -55,6 +56,7 @@ def run_py_file(filename: str):
         runpy.run_path(filename)
     except Exception as e:
         raise EasyFlowError(f"\n\n\nERROR: {e}") from None
+
 
 def run_py_file_safe(filename: str):
     """
@@ -99,7 +101,7 @@ def run_py_file_safe(filename: str):
         return False, str(e)
 
 
-def time_function_call(function, args: list = None) -> float:
+def time_function_call(function, args: list | None = None) -> float:
     """
     Runs a function once and returns how long it took to run, in
     seconds.
@@ -151,6 +153,7 @@ def time_function_call(function, args: list = None) -> float:
     except Exception as e:
         raise EasyFlowError(f"\n\n\nERROR: {e}") from None
 
+
 def time_it(func):
     """
     Decorator that measures how long a function takes to run,
@@ -188,6 +191,7 @@ def time_it(func):
             print(f"add took {elapsed:.2f}s")
             ```
     """
+
     def wrapper(*args, **kwargs):
         start = time.time()
         result = func(*args, **kwargs)
@@ -197,6 +201,7 @@ def time_it(func):
 
     return wrapper
 
+
 def retry(func, attempts=3, delay=1):
     """
     Calls a function, automatically retrying it if it raises an exception
@@ -204,9 +209,9 @@ def retry(func, attempts=3, delay=1):
 
     Args:
         func (callable): The function to execute.
-        attempts (int, optional): Maximum number of times to try running 
+        attempts (int, optional): Maximum number of times to try running
             the function. Defaults to 3.
-        delay (int or float, optional): Time to wait in seconds between 
+        delay (int or float, optional): Time to wait in seconds between
             failed attempts. Defaults to 1.
 
     Returns:
@@ -251,9 +256,203 @@ def retry(func, attempts=3, delay=1):
         try:
             result = func()
             return result
-        except Exception as e:
+        except Exception:
             if i == attempts - 1:
-                raise e
+                raise
             time.sleep(delay)
     return None
 
+
+def run_py_string(code_string: str) -> None:
+    """
+    Executes a string of Python code in the current global scope,
+    saving you from writing temporary file creation boilerplate.
+
+    Args:
+        code_string (str): Valid Python code as a string to execute.
+
+    Returns:
+        None
+
+    Raises:
+        EasyFlowError: If executing the code string raises an exception.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import run_py_string
+
+            run_py_string("print('Hello from string!')")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            try:
+                exec("print('Hello from string!')")
+            except Exception as e:
+                print(f"Execution failed: {e}")
+            ```
+    """
+    try:
+        exec(code_string)
+    except Exception as e:
+        raise EasyFlowError(f"\n\n\nERROR: {e}") from None
+
+
+def run_with_fallback(func, default_value, *args, **kwargs):
+    """
+    Executes a function and returns its result, or returns a default
+    fallback value if an exception is raised.
+
+    Args:
+        func (callable): The function to execute.
+        default_value (Any): The value to return if the function fails.
+        *args: Positional arguments to pass to the function.
+        **kwargs: Keyword arguments to pass to the function.
+
+    Returns:
+        Any: The function's return value or the default fallback value.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import run_with_fallback
+
+            result = run_with_fallback(int, 0, "not_a_number")
+            print(result)  # -> 0
+            ```
+
+        === "The Traditional Way"
+            ```python
+            try:
+                result = int("not_a_number")
+            except Exception:
+                result = 0
+            print(result)  # -> 0
+            ```
+    """
+    try:
+        return func(*args, **kwargs)
+    except Exception:
+        return default_value
+
+
+def run_with_delay(delay: float | int, func, *args, **kwargs):
+    """
+    Waits for a specified number of seconds before executing a function
+    and returning its result.
+
+    Args:
+        delay (int or float): Time to wait in seconds before running the function.
+        func (callable): The function to execute.
+        *args: Positional arguments to pass to the function.
+        **kwargs: Keyword arguments to pass to the function.
+
+    Returns:
+        Any: The return value of `func`.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import run_with_delay
+
+            result = run_with_delay(1, print, "Hello after 1 second!")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import time
+
+            time.sleep(1)
+            result = print("Hello after 1 second!")
+            ```
+    """
+    time.sleep(delay)
+    return func(*args, **kwargs)
+
+
+def run_if(condition: bool, func, *args, default_value=None, **kwargs):
+    """
+    Runs a function only when a condition is true.
+
+    Args:
+        condition (bool): Whether to run the function.
+        func (callable): The function to execute when condition is True.
+        *args: Positional arguments to pass to the function.
+        default_value (Any, optional): Value to return when condition is
+            False. Defaults to None.
+        **kwargs: Keyword arguments to pass to the function.
+
+    Returns:
+        Any: The function's return value when condition is True, or the
+            default value when condition is False.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import run_if
+
+            result = run_if(True, max, 3, 8)  # -> 8
+            skipped = run_if(False, max, 3, 8, default_value=0)  # -> 0
+            ```
+
+        === "The Traditional Way"
+            ```python
+            if should_run:
+                result = max(3, 8)
+            else:
+                result = 0
+            ```
+    """
+    if condition:
+        return func(*args, **kwargs)
+
+    return default_value
+
+
+def wait_until(condition, timeout: float | int = 5, interval: float | int = 0.1) -> bool:
+    """
+    Waits until a condition function returns True, or until a timeout
+    is reached.
+
+    Args:
+        condition (callable): A function that returns True when the
+            waiting should stop.
+        timeout (int or float, optional): Maximum number of seconds to
+            wait. Defaults to `5`.
+        interval (int or float, optional): Seconds to wait between
+            checks. Defaults to `0.1`.
+
+    Returns:
+        bool: True if the condition became true before the timeout,
+            otherwise False.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import wait_until
+
+            ready = wait_until(lambda: file_exists("report.csv"), timeout=10)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import time
+
+            start = time.time()
+            ready = False
+            while time.time() - start < 10:
+                if file_exists("report.csv"):
+                    ready = True
+                    break
+                time.sleep(0.1)
+            ```
+    """
+    start = time.time()
+
+    while time.time() - start < timeout:
+        if condition():
+            return True
+        time.sleep(interval)
+
+    return bool(condition())

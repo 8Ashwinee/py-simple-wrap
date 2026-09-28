@@ -1,19 +1,19 @@
-from py_simple_package.src.py_simple.easy_numbers import (
-    is_even,
-    is_odd,
-    is_evenly_divisible,
-    is_positive,
-    is_negative,
-    average,
-    is_prime,
-    percentage_of,
-    round_to_nearest,
-    greatest_common_divisor,
-    clamp,
-)
-
 import pytest
 
+from py_simple_package.src.py_simple.easy_numbers import (
+    average,
+    clamp,
+    greatest_common_divisor,
+    is_even,
+    is_evenly_divisible,
+    is_negative,
+    is_odd,
+    is_positive,
+    is_prime,
+    least_common_multiple,
+    percentage_of,
+    round_to_nearest,
+)
 
 # even
 
@@ -38,7 +38,6 @@ def test_is_even_with_negative_odd():
     assert is_even(-7) is False
 
 
-
 # odd
 
 
@@ -60,7 +59,6 @@ def test_is_odd_with_negative_odd():
 
 def test_is_odd_with_negative_even():
     assert is_odd(-4) is False
-
 
 
 # evenly_divisible
@@ -109,7 +107,6 @@ def test_is_positive_zero():
     assert is_positive(0) is False
 
 
-
 # negative
 
 
@@ -147,7 +144,9 @@ def test_average_negative_numbers():
 def test_average_rounding():
     assert average([1, 2, 2]) == 1.67
 
+
 # prime
+
 
 def test_is_prime_two():
     assert is_prime(2) is True
@@ -189,8 +188,6 @@ def test_is_prime_odd_composite_square():
     assert is_prime(25) is False
 
 
-
-
 # percentage
 
 
@@ -208,6 +205,7 @@ def test_percentage_zero():
 
 def test_percentage_decimal():
     assert percentage_of(19, 0.4) == 7.6
+
 
 # round_to_nearest
 
@@ -270,6 +268,37 @@ def test_gcd_zero_and_number():
 
 def test_gcd_both_zero():
     assert greatest_common_divisor(0, 0) == 0
+
+
+# least_common_multiple
+
+
+def test_lcm_shared_multiple():
+    assert least_common_multiple(12, 18) == 36
+
+
+def test_lcm_coprime_numbers():
+    assert least_common_multiple(7, 13) == 91
+
+
+def test_lcm_one_is_multiple_of_other():
+    assert least_common_multiple(10, 30) == 30
+
+
+def test_lcm_negative_number():
+    assert least_common_multiple(-12, 18) == 36
+
+
+def test_lcm_both_negative():
+    assert least_common_multiple(-12, -18) == 36
+
+
+def test_lcm_zero_and_number():
+    assert least_common_multiple(0, 5) == 0
+
+
+def test_lcm_both_zero():
+    assert least_common_multiple(0, 0) == 0
 
 
 # clamp

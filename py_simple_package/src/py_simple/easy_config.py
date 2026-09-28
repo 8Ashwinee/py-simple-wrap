@@ -2,10 +2,8 @@
 easy_config aims to simplify creating configuration files.
 """
 
-
 import os
 from importlib.resources import files
-import git
 
 
 class EasyConfigError(Exception):
@@ -17,6 +15,7 @@ class EasyConfigError(Exception):
     Args:
         message (str): Description of what went wrong.
     """
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
@@ -73,23 +72,89 @@ def gh_workflow_config(filename: str, at_root: bool = True) -> None:
             ```
     """
     if at_root:
-        workflow_path = f'.github/workflows/{filename}.yml'
+        workflow_path = f".github/workflows/{filename}.yml"
     else:
+        import git
+
         git_repo = git.Repo(os.getcwd(), search_parent_directories=True)
         git_root = git_repo.git.rev_parse("--show-toplevel")
         workflow_path = f"{git_root}/.github/workflows/{filename}.yml"
     try:
         if not os.path.exists(workflow_path):
-            template_path = files(
-                "py_simple") / "config_templates" / "workflow-template.yml"
-            with template_path.open(encoding='utf-8') as f:
+            template_path = (
+                files("py_simple") / "config_templates" / "workflow-template.yml"
+            )
+            with template_path.open(encoding="utf-8") as f:
                 template = f.readlines()
             os.makedirs(os.path.dirname(workflow_path), exist_ok=True)
-            with open(workflow_path, 'w', encoding='utf-8') as f:
+            with open(workflow_path, "w", encoding="utf-8") as f:
                 for line in template:
                     if "[NAME]" in line:
                         f.write(line.replace("[NAME]", filename))
                     else:
                         f.write(line)
+    except Exception as e:
+        raise EasyConfigError(f"\n\n\nERROR: {e}") from None
+
+def create_env_file(
+    variables: dict[str, str],
+    file_path: str = ".env",
+    overwrite: bool = False,
+) -> None:
+    """
+    Creates a .env configuration file with the provided key-value pairs.
+
+    Writes variables in 'KEY=VALUE' format. If the file already exists
+    and overwrite is False, the file is left alone. Any missing parent
+    directories are created automatically.
+
+    Args:
+        variables (dict[str, str]): Dictionary of configuration keys and
+            their string values to store in the file.
+        file_path (str, optional): Destination path for the .env file.
+            Defaults to ".env".
+        overwrite (bool, optional): Whether to overwrite an existing file.
+            Defaults to False.
+
+    Returns:
+        None
+
+    Raises:
+        EasyConfigError: If the file or parent directory cannot be written.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import create_env_file
+
+            config = {"PORT": "8000", "DEBUG": "True"}
+            create_env_file(config)
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import os
+
+            config = {"PORT": "8000", "DEBUG": "True"}
+            if not os.path.exists(".env"):
+                parent_dir = os.path.dirname(".env")
+                if parent_dir:
+                    os.makedirs(parent_dir, exist_ok=True)
+                with open(".env", "w", encoding="utf-8") as f:
+                    for key, value in config.items():
+                        f.write(f"{key}={value}{os.linesep}")
+            ```
+    """
+    if os.path.exists(file_path) and not overwrite:
+        return
+
+    try:
+        parent_dir = os.path.dirname(file_path)
+        if parent_dir:
+            os.makedirs(parent_dir, exist_ok=True)
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            for key, value in variables.items():
+                f.write(f"{key}={value}\n")
     except Exception as e:
         raise EasyConfigError(f"\n\n\nERROR: {e}") from None
