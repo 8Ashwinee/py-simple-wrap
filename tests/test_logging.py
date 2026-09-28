@@ -9,6 +9,7 @@ from py_simple_package.src.py_simple.easy_logging import (
     find_log_lines,
     log_function,
     log_step,
+    log_to_file,
     read_recent_log_lines,
 )
 
@@ -156,6 +157,24 @@ def test_read_recent_log_lines_returns_empty_list_for_invalid_count(tmp_path):
     log_file.write_text("line one\n")
 
     assert read_recent_log_lines(str(log_file), line_count=0) == []
+
+
+def test_log_to_file_creates_file_and_writes_message(tmp_path):
+    log_file = tmp_path / "app.log"
+
+    result = log_to_file(str(log_file), "Started import job")
+
+    assert result is True
+    assert log_file.read_text() == "Started import job\n"
+
+
+def test_log_to_file_appends_to_existing_file(tmp_path):
+    log_file = tmp_path / "app.log"
+    log_file.write_text("First line\n")
+
+    log_to_file(str(log_file), "Second line")
+
+    assert log_file.read_text() == "First line\nSecond line\n"
 
 
 def test_find_log_lines_returns_matching_lines_without_newlines(tmp_path):
