@@ -297,3 +297,34 @@ def filter_csv_rows(
 
     headers = list(all_rows[0].keys())
     return [[row[h] for h in headers] for row in filtered]
+def append_row_to_csv(
+    filepath: str,
+    row: dict[str, Any] | list[Any],
+    delimiter: str = ",",
+) -> None:
+    """
+    Append a single row (as a dictionary or list) to an existing CSV file.
+
+    Args:
+        filepath (str): Path to the CSV file.
+        row (dict or list): The row data to append.
+        delimiter (str): Field delimiter (default is comma).
+
+    Raises:
+        FileNotFoundError: If filepath doesn't exist.
+        ValueError: If the file is empty.
+    """
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"File not found: {filepath}")
+
+    headers = get_csv_columns(filepath, delimiter=delimiter)
+    if not headers:
+        raise ValueError(f"File is empty: {filepath}")
+
+    with open(filepath, "a", newline="", encoding="utf-8") as f:
+        if isinstance(row, dict):
+            writer = csv.DictWriter(f, fieldnames=headers, delimiter=delimiter)
+            writer.writerow(row)
+        else:
+            writer = csv.writer(f, delimiter=delimiter)
+            writer.writerow(row)
