@@ -88,6 +88,47 @@ Every tile below is a real person who showed up for this project. 💛
 
 ---
 
+## 🧿 The Second Sight Society
+*Reviewed the code before it merged.*
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/VidyavathiGK">
+        <img src="https://github.com/VidyavathiGK.png" width="100px;" alt="VidyavathiGK"/><br />
+        <sub><b>Vidyavathi GK</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/qotique">
+        <img src="https://github.com/qotique.png" width="100px;" alt="qotique"/><br />
+        <sub><b>qotique</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/gaoharimran29-glitch">
+        <img src="https://github.com/gaoharimran29-glitch.png" width="100px;" alt="Gaohar Imran"/><br />
+        <sub><b>Gaohar Imran</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/ghostfix-pm">
+        <img src="https://github.com/ghostfix-pm.png" width="100px;" alt="ghostfix-pm"/><br />
+        <sub><b>ghostfix-pm</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/Atharvs13">
+        <img src="https://github.com/Atharvs13.png" width="100px;" alt="Atharvs13"/><br />
+        <sub><b>Atharvs13</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+---
+
 ## 🔮 The Code Conjurers' Circle
 *Shipped features and logic across the codebase.*
 
