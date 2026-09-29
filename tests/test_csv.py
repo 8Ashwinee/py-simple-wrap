@@ -210,13 +210,33 @@ class TestFilterCsvRows:
 
 
 class TestAppendRowToCsv:
-    def test_append_row_to_csv(self, tmp_path):
+    def test_append_dict_row(self, tmp_path):
         csv_file = tmp_path / "people.csv"
         write_people_csv(csv_file)
 
-        # Test appending a dict row
-        append_row_to_csv(str(csv_file), {"Name": "Dave", "Age": "25"})
+        append_row_to_csv(str(csv_file), {"Name": "Charlie", "Age": "29"})
 
         rows = read_csv_to_list(str(csv_file), return_dict=True)
         assert len(rows) == 4
-        assert rows[3] == {"Name": "Dave", "Age": "25"}
+        assert rows[3] == {"Name": "Charlie", "Age": "29"}
+
+    def test_append_list_row(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        append_row_to_csv(str(csv_file), ["Charlie", "29"])
+
+        rows = read_csv_to_list(str(csv_file), return_dict=False)
+        assert rows[-1] == ["Charlie", "29"]
+
+    def test_append_missing_file_raises_file_not_found(self, tmp_path):
+        missing_file = tmp_path / "missing.csv"
+        with pytest.raises(FileNotFoundError):
+            append_row_to_csv(str(missing_file), {"Name": "Charlie", "Age": "29"})
+
+    def test_append_empty_file_raises_value_error(self, tmp_path):
+        empty_file = tmp_path / "empty.csv"
+        empty_file.write_text("", encoding="utf-8")
+
+        with pytest.raises(ValueError):
+            append_row_to_csv(str(empty_file), {"Name": "Charlie", "Age": "29"})
