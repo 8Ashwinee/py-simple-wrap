@@ -10,6 +10,12 @@
 window.BOOK_DATA = {
   categories: [
     {
+      id: "ai",
+      name: "AI",
+      icon: "🤖",
+      blurb: "Connect to AI models and work with text without the setup boilerplate"
+    },
+    {
       id: "files-data",
       name: "Files & data",
       icon: "📂",
@@ -48,6 +54,26 @@ window.BOOK_DATA = {
   ],
 
   modules: [
+    /* ---------------------------------------------------------------- */
+    /* AI                                                               */
+    /* ---------------------------------------------------------------- */
+    {
+      id: "easy_ai",
+      name: "Easy AI",
+      icon: "🤖",
+      category: "ai",
+      summary: "connect to LLM providers without the SDK setup boilerplate",
+      useCases: [
+        "Connect to a supported AI provider with one helper",
+        "Ask a question or start an interactive chat",
+        "Summarize, translate, or rewrite text"
+      ],
+      links: [
+        { label: "Docs", icon: "📘", url: "https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_ai/" },
+        { label: "Tutorial", icon: "🎓", url: "https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_ai/" },
+        { label: "Source", icon: "🐍", url: "https://github.com/sara-czasak/py-simple-wrap/blob/main/py_simple_package/src/py_simple/easy_ai.py" }
+      ]
+    },
     /* ---------------------------------------------------------------- */
     /* Files & data                                                     */
     /* ---------------------------------------------------------------- */
@@ -347,6 +373,23 @@ window.BOOK_DATA = {
     /* ---------------------------------------------------------------- */
     /* Time & control flow                                              */
     /* ---------------------------------------------------------------- */
+      {
+      id: "easy_logging",
+      name: "Easy Logging",
+      icon: "🪵",
+      category: "time-flow",
+      summary: "start/success/error logging around code blocks and function calls without repeating try/except",
+      useCases: [
+        "Log the start, success, or failure of a code block",
+        "Add logging around a function with a decorator",
+        "Read recent log lines or search for matching messages"
+      ],
+      links: [
+        { label: "Docs", icon: "📘", url: "https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_logging/" },
+        { label: "Tutorial", icon: "🎓", url: "https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_logging/" },
+        { label: "Source", icon: "🐍", url: "https://github.com/sara-czasak/py-simple-wrap/blob/main/py_simple_package/src/py_simple/easy_logging.py" }
+      ]
+    },
     {
       id: "easy_date_formatter",
       name: "Easy Date Formatter",
@@ -404,6 +447,22 @@ window.BOOK_DATA = {
     /* ---------------------------------------------------------------- */
     /* Web & visuals                                                    */
     /* ---------------------------------------------------------------- */
+      {
+      id: "easy_terminal",
+      name: "Easy Terminal",
+      icon: "🖥️",
+      category: "web-visuals",
+      summary: "styled terminal output without memorizing Rich markup strings",
+      useCases: [
+        "Print terminal messages in different colors",
+        "Highlight text with a background color",
+        "Combine color and bold styling using chained methods"
+      ],
+      links: [
+        { label: "Docs", icon: "📘", url: "https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_terminal/" },
+        { label: "Source", icon: "🐍", url: "https://github.com/sara-czasak/py-simple-wrap/blob/main/py_simple_package/src/py_simple/easy_terminal.py" }
+      ]
+    },
     {
       id: "easy_web",
       name: "Easy Web",

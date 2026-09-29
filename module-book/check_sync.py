@@ -54,7 +54,7 @@ def parse_modules_md(text: str) -> dict:
 
         row_match = re.match(
             r"^\|\s*(\S+)\s+([A-Za-z0-9 ]+?)\s*\|\s*(.+?)\s*\|\s*"
-            r"\[Docs\]\(([^)]+)\)\s*·\s*\[Tutorial\]\(([^)]+)\)\s*\|$",
+            r"\[Docs\]\(([^)]+)\)\s*·\s*(?:\[Tutorial\]\(([^)]+)\)|COMING SOON)\s*\|$",
             line,
         )
         if not row_match or current_category is None:
