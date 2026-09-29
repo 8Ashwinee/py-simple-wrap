@@ -73,7 +73,10 @@ def plot_data(X: list, Y: list | None = None):
     charts = CHART_SUGGESTIONS[(type_X, type_Y)]
     chart_index = 0  # tracks which subplot slot to draw into next
 
-    _fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+    # One subplot per suggested chart, so a single chart fills the figure
+    _fig, axes = plt.subplots(
+        1, len(charts), figsize=(5 * len(charts), 5), squeeze=False
+    )
 
     if "histogram" in charts:
         ax = axes.flat[chart_index]

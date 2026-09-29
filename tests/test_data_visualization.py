@@ -125,3 +125,31 @@ def test_get_data_range_empty_error():
 def test_get_data_range_invalid_type_error():
     with pytest.raises(ValueError):
         get_data_range([1, 2, "three"])
+
+
+# --- Tests for plot_data figure layout ---
+
+
+@pytest.mark.parametrize(
+    "X, Y, expected_charts",
+    [
+        ([1, 2, 3, 4, 5], None, 2),
+        (["cat", "dog", "cat"], None, 2),
+        ([1, 2, 3], [10, 20, 30], 1),
+        ([10, 20, 30], ["A", "B", "C"], 1),
+        (["A", "B", "C"], [10, 20, 30], 1),
+    ],
+)
+def test_plot_data_creates_one_subplot_per_chart(X, Y, expected_charts):
+    plot_data(X, Y)
+    fig = plt.gcf()
+    assert len(fig.axes) == expected_charts
+    plt.close(fig)
+
+
+def test_plot_data_single_chart_fills_figure_width():
+    plot_data(["Mon", "Tue", "Wed"], [3.5, 2.0, 4.5])
+    fig = plt.gcf()
+    assert fig.get_size_inches()[0] == 5
+    assert fig.axes[0].get_position().width > 0.5
+    plt.close(fig)
