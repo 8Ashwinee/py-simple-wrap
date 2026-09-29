@@ -4,6 +4,7 @@ from py_simple_package.src.py_simple import (
     count_csv_rows,
     filter_csv_rows,
     get_csv_columns,
+    read_csv_column,
     read_csv_to_list,
     write_csv_from_list,
 )
@@ -206,3 +207,67 @@ class TestFilterCsvRows:
 
         with pytest.raises(ValueError):
             filter_csv_rows(str(csv_file), column="City", value="Nowhere")
+
+
+class TestReadCsvColumn:
+    def test_read_column_values(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        result = read_csv_column(str(csv_file), "Name")
+        assert result == ["Alice", "Bob", "Carol"]
+
+    def test_read_column_numeric_values_as_strings(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        result = read_csv_column(str(csv_file), "Age")
+        assert result == ["24", "31", "42"]
+
+    def test_read_column_with_kwargs(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        result = read_csv_column(filepath=str(csv_file), column="Name")
+        assert result == ["Alice", "Bob", "Carol"]
+
+    def test_read_column_with_alias_kwargs(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        result = read_csv_column(file_path=str(csv_file), column_name="Age")
+        assert result == ["24", "31", "42"]
+
+    def test_read_column_custom_delimiter(self, tmp_path):
+        csv_file = tmp_path / "data.csv"
+        csv_file.write_text("a;b\n1;2\n3;4\n", encoding="utf-8")
+
+        result = read_csv_column(str(csv_file), "b", delimiter=";")
+        assert result == ["2", "4"]
+
+    def test_read_column_header_only_file_returns_empty_list(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        csv_file.write_text("Name,Age\n", encoding="utf-8")
+
+        result = read_csv_column(str(csv_file), "Name")
+        assert result == []
+
+    def test_read_column_missing_file_raises_file_not_found(self, tmp_path):
+        missing_file = tmp_path / "missing.csv"
+        with pytest.raises(FileNotFoundError):
+            read_csv_column(str(missing_file), "Name")
+
+    def test_read_column_empty_file_raises_value_error(self, tmp_path):
+        empty_file = tmp_path / "empty.csv"
+        empty_file.write_text("", encoding="utf-8")
+
+        with pytest.raises(ValueError):
+            read_csv_column(str(empty_file), "Name")
+
+    def test_read_column_missing_column_raises_value_error(self, tmp_path):
+        csv_file = tmp_path / "people.csv"
+        write_people_csv(csv_file)
+
+        with pytest.raises(ValueError, match="Column not found"):
+            read_csv_column(str(csv_file), "City")
+

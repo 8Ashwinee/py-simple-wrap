@@ -297,3 +297,74 @@ def filter_csv_rows(
 
     headers = list(all_rows[0].keys())
     return [[row[h] for h in headers] for row in filtered]
+
+
+def read_csv_column(
+    filepath: str | None = None,
+    column: str | None = None,
+    delimiter: str = ",",
+    *,
+    file_path: str | None = None,
+    column_name: str | None = None,
+) -> list[str]:
+    """
+    Read all values from a specific column in a CSV file.
+
+    Args:
+        filepath (str): Path to the CSV file. Also accepts file_path as alias.
+        column (str): Column name to extract. Also accepts column_name as alias.
+        delimiter (str): Field delimiter (default is comma).
+        file_path (str, optional): Keyword alias for filepath.
+        column_name (str, optional): Keyword alias for column.
+
+    Returns:
+        list: Values from the specified column.
+
+    Raises:
+        FileNotFoundError: If filepath doesn't exist.
+        ValueError: If the file is empty or if the column is not found.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import read_csv_column
+
+            names = read_csv_column(filepath="people.csv", column="Name")
+            print(names)  # ['Alice', 'Bob', 'Carol']
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import csv
+
+            with open("people.csv", "r", newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                names = [row["Name"] for row in reader]
+            print(names)  # ['Alice', 'Bob', 'Carol']
+            ```
+    """
+    path = filepath if filepath is not None else file_path
+    col = column if column is not None else column_name
+
+    if path is None:
+        raise TypeError("read_csv_column() missing required argument: 'filepath' or 'file_path'")
+    if col is None:
+        raise TypeError("read_csv_column() missing required argument: 'column' or 'column_name'")
+
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"File not found: {path}")
+
+    with open(path, "r", newline="", encoding="utf-8") as f:
+        reader = csv.reader(f, delimiter=delimiter)
+        rows = list(reader)
+
+    if not rows:
+        raise ValueError(f"File is empty: {path}")
+
+    headers = rows[0]
+    if col not in headers:
+        raise ValueError(f"Column not found: {col}")
+
+    col_index = headers.index(col)
+    return [row[col_index] if len(row) > col_index else "" for row in rows[1:]]
+

@@ -73,6 +73,7 @@ from .easy_csv import (
     count_csv_rows,
     filter_csv_rows,
     get_csv_columns,
+    read_csv_column,
     read_csv_to_list,
     write_csv_from_list,
 )
