@@ -153,6 +153,7 @@ from .easy_generator import (
     generate_qr_code,
     generate_slug,
     generate_uuid,
+    generate_passphrase,
 )
 from .easy_images import (
     convert_image,
