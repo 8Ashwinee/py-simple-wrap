@@ -66,6 +66,7 @@ nav:
         - Easy Stats: tutorial/easy_stats.md
         - Easy Strings: tutorial/easy_strings.md
         - Easy Text: tutorial/easy_text.md
+        - Easy Terminal: tutorial/easy_terminal.md
         - Easy Validator: tutorial/easy_validator.md
         - Easy Web: tutorial/easy_web.md
       - Project-Based Tutorials:
