@@ -75,6 +75,12 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
       </a>
     </td>
     <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/dave123981">
+        <img src="https://github.com/dave123981.png" width="100px;" alt="David King"/><br />
+        <sub><b>David King</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/gaoharimran29-glitch">
         <img src="https://github.com/gaoharimran29-glitch.png" width="100px;" alt="Gaohar Imran"/><br />
         <sub><b>Gaohar Imran</b></sub>
@@ -98,24 +104,18 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
         <sub><b>Sara Czasak</b></sub>
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/VidyavathiGK">
         <img src="https://github.com/VidyavathiGK.png" width="100px;" alt="Vidyavathi GK"/><br />
         <sub><b>Vidyavathi GK</b></sub>
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/Onion0121">
         <img src="https://github.com/Onion0121.png" width="100px;" alt="Yassin Azzouzi"/><br />
         <sub><b>Yassin Azzouzi</b></sub>
-      </a>
-    </td>
-    <td align="center" valign="top" width="8.6%">
-      <a href="https://github.com/dave123981">
-        <img src="https://github.com/dave123981.png" width="100px;" alt="David King"/><br />
-        <sub><b>David King</b></sub>
       </a>
     </td>
   </tr>
