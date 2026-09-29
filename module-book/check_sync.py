@@ -21,7 +21,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 MODULES_MD = REPO_ROOT / "MODULES.md"
 MODULES_JS = REPO_ROOT / "module-book" / "data" / "modules.js"
 
@@ -32,6 +32,7 @@ CATEGORY_ID_BY_HEADER = {
     "Time & control flow": "time-flow",
     "Web & visuals": "web-visuals",
     "Fun & generators": "fun-generators",
+    "AI": "ai",
 }
 
 

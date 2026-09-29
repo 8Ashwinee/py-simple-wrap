@@ -146,7 +146,7 @@ window.BOOK_DATA = {
       name: "Easy SQL",
       icon: "🗄️",
       category: "files-data",
-      summary: "open a SQLite connection without the boilerplate (query/write helpers are experimental — not yet part of the public API)",
+            summary: "open a SQLite connection and run queries/writes without the boilerplate",
       useCases: [
         "Open a SQLite database and get a connection and cursor in one call"
       ],
