@@ -105,6 +105,7 @@ nav:
       - Easy Stats: reference/easy_stats.md
       - Easy Strings: reference/easy_strings.md
       - Easy Text: reference/easy_text.md
+      - Easy Terminal: reference/easy_terminal.md
       - Easy Validator: reference/easy_validator.md
       - Easy Web: reference/easy_web.md
       - Easy SQL: reference/easy_sql.md
