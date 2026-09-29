@@ -742,6 +742,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "Mohamed-Saeed-Hussein",
+      "name": "Mohamed Saeed",
+      "avatar_url": "https://github.com/Mohamed-Saeed-Hussein.png",
+      "profile": "https://github.com/Mohamed-Saeed-Hussein",
+      "contributions": [
+        "documentation"
+      ]
     }
   ]
 }
