@@ -21,6 +21,7 @@ from .easy_archive import (
     list_zip_contents,
     unzip_file,
     zip_files,
+    zip_contains_file,
     zip_folder,
 )
 from .easy_async import (
