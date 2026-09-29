@@ -948,6 +948,12 @@ Every tile below is a real person who showed up for this project. 💛
         <sub><b>Yassin Azzouzi</b></sub>
       </a>
     </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/dave123981">
+        <img src="https://github.com/dave123981.png" width="100px;" alt="David King"/><br />
+        <sub><b>David King</b></sub>
+      </a>
+    </td>
   </tr>
 </table>
 
