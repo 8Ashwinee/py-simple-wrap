@@ -5,6 +5,7 @@ from py_simple_package.src.py_simple.easy_config import (
     EasyConfigError,
     gh_workflow_config,
     create_env_file,
+    read_env_file,
 )
 
 
@@ -100,4 +101,50 @@ def test_create_env_file_wraps_errors(tmp_path, monkeypatch):
 
     with pytest.raises(EasyConfigError, match="Permission denied"):
         create_env_file({"KEY": "VALUE"}, file_path=str(tmp_path / ".env"))
-        
+
+
+def test_read_env_file_reads_key_value_pairs(tmp_path):
+    env_file = tmp_path / ".env"
+    env_file.write_text("PORT=8000\nDEBUG=True\n", encoding="utf-8")
+
+    assert read_env_file(str(env_file)) == {
+        "PORT": "8000",
+        "DEBUG": "True",
+    }
+
+
+def test_read_env_file_ignores_blank_lines_and_comments(tmp_path):
+    env_file = tmp_path / ".env"
+    env_file.write_text(
+        "# local config\n\nPORT=8000\nINVALID_LINE\n# ignored\nDEBUG=True\n",
+        encoding="utf-8",
+    )
+
+    assert read_env_file(str(env_file)) == {
+        "PORT": "8000",
+        "DEBUG": "True",
+    }
+
+
+def test_read_env_file_strips_key_value_whitespace(tmp_path):
+    env_file = tmp_path / ".env"
+    env_file.write_text(" PORT = 8000 \n DEBUG = True \n", encoding="utf-8")
+
+    assert read_env_file(str(env_file)) == {
+        "PORT": "8000",
+        "DEBUG": "True",
+    }
+
+
+def test_read_env_file_keeps_equals_signs_in_values(tmp_path):
+    env_file = tmp_path / ".env"
+    env_file.write_text("DATABASE_URL=postgres://user:p=a@s/db\n", encoding="utf-8")
+
+    assert read_env_file(str(env_file)) == {
+        "DATABASE_URL": "postgres://user:p=a@s/db",
+    }
+
+
+def test_read_env_file_wraps_missing_file_error(tmp_path):
+    with pytest.raises(EasyConfigError, match="does_not_exist"):
+        read_env_file(str(tmp_path / "does_not_exist.env"))
