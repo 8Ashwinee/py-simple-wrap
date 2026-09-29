@@ -75,8 +75,11 @@ config = [
 json = [
     "python-benedict>=0.38.0",
 ]
+terminal = [
+    "rich>=13.0.0",
+]
 all = [
-    "py_simple_wrap[ai,game,viz,images,web,config,json]",
+    "py_simple_wrap[ai,game,viz,images,web,config,json,terminal]",
 ]
 test = [
     "pytest>=7.0",

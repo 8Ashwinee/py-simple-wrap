@@ -312,3 +312,6 @@ from .easy_web import (
     is_page_up,
     print_allowed_tags,
 )
+from .easy_terminal import (
+    EasyTerminal,
+)
