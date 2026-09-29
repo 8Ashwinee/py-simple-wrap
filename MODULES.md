@@ -41,12 +41,12 @@
 
 ## Time & control flow
 
-| Module                  | What it removes                                                               |                                                                                         Links                                                                                          |
-|:------------------------|:------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 🕰️ Easy Date Formatter | readable dates without memorizing strftime codes                              | [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_date_formatter/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_date_formatter/) |
-| 🔄 Easy Flow            | running scripts, timing, and retries without the boilerplate                  |           [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_flow/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_flow/)           |
-| ⚡ Easy Async            | run multiple functions at once without touching `ThreadPoolExecutor` directly |          [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_async/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_async/)          |
-| 🪵 Easy Logging         | start/success/error logging around code blocks and function calls without repeating try/except | [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_logging/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_logging/) |
+| Module                  | What it removes                                                                                |                                                                                         Links                                                                                          |
+|:------------------------|:-----------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 🕰️ Easy Date Formatter | readable dates without memorizing strftime codes                                               | [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_date_formatter/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_date_formatter/) |
+| 🔄 Easy Flow            | running scripts, timing, and retries without the boilerplate                                   |           [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_flow/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_flow/)           |
+| ⚡ Easy Async            | run multiple functions at once without touching `ThreadPoolExecutor` directly                  |          [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_async/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_async/)          |
+| 🪵 Easy Logging         | start/success/error logging around code blocks and function calls without repeating try/except |        [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_logging/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_logging/)        |
 
 
 ## Web & visuals
@@ -57,6 +57,7 @@
 | 🎨 Easy Colors             | hex/RGB/HSL color conversions without memorizing the formulas                 |             [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_colors/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_colors/)             |
 | 🖼️ Easy Images            | resize, convert, rotate, and inspect images without wrangling Pillow directly |             [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_images/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_images/)             |
 | 📈 Easy Data Visualization | auto-picks the right chart type for your data, no matplotlib boilerplate      | [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_data_visualization/) · [Tutorial](https://sara-czasak.github.io/py-simple-wrap/docs/tutorial/easy_data_visualization/) |
+| 🖥️ Easy Terminal          | styled terminal output without memorizing Rich markup strings                 |                                                [Docs](https://sara-czasak.github.io/py-simple-wrap/docs/reference/easy_terminal/) · COMING SOON                                                |
 
 ## Fun & generators
 

@@ -8,6 +8,7 @@ from py_simple_package.src.py_simple.easy_async import (
     run_at_the_same_time_with_params,
     run_with_timeout,
     run_concurrent_map,
+    run_after_delay,
     run_with_retry,
 )
 
@@ -103,6 +104,33 @@ def test_run_concurrent_map_error():
 
     with pytest.raises(EasyAsyncError):
         asyncio.run(run_concurrent_map(divide_hundred_by, [10, 5, 0, 2]))
+
+
+def test_run_after_delay_success(monkeypatch):
+    async def instant_sleep(delay):
+        assert delay == 0.5
+
+    monkeypatch.setattr(asyncio, "sleep", instant_sleep)
+
+    def add(a, b):
+        return a + b
+
+    result = asyncio.run(run_after_delay(add, 0.5, 2, 3))
+
+    assert result == ("add", 5)
+
+
+def test_run_after_delay_wraps_function_error(monkeypatch):
+    async def instant_sleep(delay):
+        assert delay == 0.1
+
+    monkeypatch.setattr(asyncio, "sleep", instant_sleep)
+
+    def fail():
+        raise ValueError("broken")
+
+    with pytest.raises(EasyAsyncError, match="broken"):
+        asyncio.run(run_after_delay(fail, 0.1))
 
 
 def test_run_with_retry_success():

@@ -312,6 +312,50 @@ def list_zip_contents(zip_path: str) -> list:
         return zf.namelist()
 
 
+def zip_contains_file(zip_path: str, filename: str) -> bool:
+    """
+    Checks whether a zip archive contains a specific file.
+
+    Args:
+        zip_path (str): Path to the .zip file to inspect.
+        filename (str): Name of the file to look for inside the archive.
+
+    Returns:
+        bool: True if the file is present, False otherwise.
+
+    Raises:
+        EasyArchiveError: If the zip file is missing or invalid.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import zip_contains_file
+
+            has_notes = zip_contains_file("backup.zip", "notes.txt")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import zipfile
+
+            with zipfile.ZipFile("backup.zip", "r") as zf:
+                has_notes = "notes.txt" in zf.namelist()
+            ```
+    """
+    if not os.path.isfile(zip_path):
+        raise EasyArchiveError(
+            f"\n\n\nERROR: Zip file '{zip_path}' does not exist."
+        ) from None
+
+    if not zipfile.is_zipfile(zip_path):
+        raise EasyArchiveError(
+            f"\n\n\nERROR: '{zip_path}' is not a valid zip file."
+        ) from None
+
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        return filename in zf.namelist()
+
+
 def add_to_zip(zip_path: str, file_to_add: str) -> bool:
     """
     Adds a single file to an existing .zip archive.
@@ -429,4 +473,3 @@ def get_zip_file_count(zip_path: str) -> int:
 
     with zipfile.ZipFile(zip_path, "r") as zf:
         return len(zf.namelist())
-    

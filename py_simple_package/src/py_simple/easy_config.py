@@ -158,3 +158,56 @@ def create_env_file(
                 f.write(f"{key}={value}\n")
     except Exception as e:
         raise EasyConfigError(f"\n\n\nERROR: {e}") from None
+
+
+def read_env_file(file_path: str = ".env") -> dict[str, str]:
+    """
+    Reads a .env configuration file into a dictionary.
+
+    Ignores blank lines and comments. Lines are split on the first '='
+    so values may contain additional '=' characters.
+
+    Args:
+        file_path (str, optional): Path to the .env file to read.
+            Defaults to ".env".
+
+    Returns:
+        dict[str, str]: Dictionary of configuration keys and values.
+
+    Raises:
+        EasyConfigError: If the file cannot be read.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import read_env_file
+
+            config = read_env_file(".env")
+            ```
+
+        === "The Traditional Way"
+            ```python
+            config = {}
+            with open(".env", encoding="utf-8") as f:
+                for line in f:
+                    if "=" in line and not line.startswith("#"):
+                        key, value = line.strip().split("=", 1)
+                        config[key] = value
+            ```
+    """
+    try:
+        variables = {}
+        with open(file_path, encoding="utf-8") as f:
+            for line in f:
+                stripped_line = line.strip()
+                if not stripped_line or stripped_line.startswith("#"):
+                    continue
+                if "=" not in stripped_line:
+                    continue
+                key, value = stripped_line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                variables[key] = value
+        return variables
+    except Exception as e:
+        raise EasyConfigError(f"\n\n\nERROR: {e}") from None

@@ -21,11 +21,13 @@ from .easy_archive import (
     list_zip_contents,
     unzip_file,
     zip_files,
+    zip_contains_file,
     zip_folder,
 )
 from .easy_async import (
     run_at_the_same_time_no_params,
     run_at_the_same_time_with_params,
+    run_after_delay,
     run_with_retry,
     run_with_timeout,
     run_concurrent_map,
@@ -44,6 +46,7 @@ from .easy_colors import (
 from .easy_config import (
     gh_workflow_config,
     create_env_file,
+    read_env_file,
 )
 from .easy_converter import (
     celsius_to_fahrenheit,
@@ -309,4 +312,7 @@ from .easy_web import (
     get_tag_list,
     is_page_up,
     print_allowed_tags,
+)
+from .easy_terminal import (
+    EasyTerminal,
 )
