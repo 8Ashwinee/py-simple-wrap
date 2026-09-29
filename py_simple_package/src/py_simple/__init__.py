@@ -47,6 +47,7 @@ from .easy_config import (
     gh_workflow_config,
     create_env_file,
     read_env_file,
+    gitignore_config,
 )
 from .easy_converter import (
     celsius_to_fahrenheit,
