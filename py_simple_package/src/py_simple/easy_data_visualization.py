@@ -270,3 +270,88 @@ def get_data_range(data: list[int | float]) -> tuple[int | float, int | float]:
         raise ValueError("All elements in the data series must be numbers.")
 
     return (min(data), max(data))
+
+
+def plot_bar_chart(
+    labels: list[str],
+    values: list[int | float],
+    title: str | None = None,
+    x_label: str | None = None,
+    y_label: str | None = None,
+) -> None:
+    """
+    Displays a bar chart with an optional title and axis labels.
+
+    Unlike `plot_data`, which picks a chart type for you, this function
+    always draws a bar chart and lets you name the chart and its axes, so
+    the result is ready to share or screenshot.
+
+    Args:
+        labels (list[str]): The name of each bar (shown on the x-axis).
+        values (list[int | float]): The height of each bar.
+        title (str, optional): Text shown above the chart. Defaults to
+            `None` (no title).
+        x_label (str, optional): Text shown under the x-axis. Defaults to
+            `None` (no label).
+        y_label (str, optional): Text shown beside the y-axis. Defaults to
+            `None` (no label).
+
+    Returns:
+        None: The bar chart is rendered directly via `plt.show()`.
+
+    Raises:
+        ValueError: If `labels` or `values` is empty, if they have
+            different lengths, or if any value is not a number.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import plot_bar_chart
+
+            plot_bar_chart(
+                ["Mon", "Tue", "Wed"],
+                [3.5, 2.0, 4.5],
+                title="My Screen Time",
+                x_label="Day",
+                y_label="Hours",
+            )
+            ```
+
+        === "The Traditional Way"
+            ```python
+            import matplotlib.pyplot as plt
+
+            labels = ["Mon", "Tue", "Wed"]
+            values = [3.5, 2.0, 4.5]
+            fig, ax = plt.subplots()
+            ax.bar(labels, values)
+            ax.set_title("My Screen Time")
+            ax.set_xlabel("Day")
+            ax.set_ylabel("Hours")
+            ax.spines[["top", "right"]].set_visible(False)
+            plt.show()
+            ```
+    """
+    import matplotlib.pyplot as plt
+
+    if not labels or not values:
+        raise ValueError("Labels and values cannot be empty.")
+
+    if len(labels) != len(values):
+        raise ValueError("Labels and values must have the same length.")
+
+    if not all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in values):
+        raise ValueError("All values must be numbers.")
+
+    _, ax = plt.subplots()
+    ax.bar([str(label) for label in labels], values)
+
+    if title:
+        ax.set_title(title)
+    if x_label:
+        ax.set_xlabel(x_label)
+    if y_label:
+        ax.set_ylabel(y_label)
+
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.show()
