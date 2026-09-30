@@ -374,6 +374,12 @@ Every tile below is a real person who showed up for this project. 💛
         <sub><b>runway28R</b></sub>
       </a>
     </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/veligetisamanvi">
+        <img src="https://github.com/veligetisamanvi.png" width="100px;" alt="veligetisamanvi"/><br />
+        <sub><b>veligetisamanvi</b></sub>
+      </a>
+    </td>
   </tr>
 </table>
 
@@ -704,6 +710,12 @@ Every tile below is a real person who showed up for this project. 💛
       <a href="https://github.com/runway28R">
         <img src="https://github.com/runway28R.png" width="100px;" alt="runway28R"/><br />
         <sub><b>runway28R</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/veligetisamanvi">
+        <img src="https://github.com/veligetisamanvi.png" width="100px;" alt="veligetisamanvi"/><br />
+        <sub><b>veligetisamanvi</b></sub>
       </a>
     </td>
   </tr>
