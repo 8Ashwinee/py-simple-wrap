@@ -302,7 +302,7 @@ def plot_bar_chart(
 
     Example:
         === "The Py_simple Way"
-```python
+            ```python
             from py_simple import plot_bar_chart
 
             plot_bar_chart(
@@ -312,10 +312,10 @@ def plot_bar_chart(
                 x_label="Day",
                 y_label="Hours",
             )
-```
+            ```
 
         === "The Traditional Way"
-```python
+            ```python
             import matplotlib.pyplot as plt
 
             labels = ["Mon", "Tue", "Wed"]
@@ -327,7 +327,7 @@ def plot_bar_chart(
             ax.set_ylabel("Hours")
             ax.spines[["top", "right"]].set_visible(False)
             plt.show()
-```
+            ```
     """
     import matplotlib.pyplot as plt
 
