@@ -280,6 +280,7 @@ from .easy_strings import (
     is_alphanumeric,
     is_palindrome,
     remove_extra_spaces,
+    to_camel_case,
     to_kebab_case,
     to_snake_case,
 )
