@@ -356,15 +356,15 @@ def read_csv_column(
 
     with open(path, "r", newline="", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter=delimiter)
-        rows = list(reader)
+        
+        try:
+            headers = next(reader)
+        except StopIteration:
+            raise ValueError(f"File is empty: {path}")
 
-    if not rows:
-        raise ValueError(f"File is empty: {path}")
+        if col not in headers:
+            raise ValueError(f"Column not found: {col}")
 
-    headers = rows[0]
-    if col not in headers:
-        raise ValueError(f"Column not found: {col}")
-
-    col_index = headers.index(col)
-    return [row[col_index] if len(row) > col_index else "" for row in rows[1:]]
+        col_index = headers.index(col)
+        return [row[col_index] if len(row) > col_index else "" for row in reader]
 
