@@ -78,6 +78,7 @@ from .easy_csv import (
 )
 from .easy_data_visualization import (
     plot_data,
+    plot_heatmap,
     plot_box_plot,
     plot_bar_chart,
 )
