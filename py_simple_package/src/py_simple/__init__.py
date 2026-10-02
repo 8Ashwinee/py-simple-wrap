@@ -47,6 +47,7 @@ from .easy_config import (
     gh_workflow_config,
     create_env_file,
     read_env_file,
+    gitignore_config,
 )
 from .easy_converter import (
     celsius_to_fahrenheit,
@@ -72,6 +73,7 @@ from .easy_csv import (
     count_csv_rows,
     filter_csv_rows,
     get_csv_columns,
+    read_csv_column,
     read_csv_to_list,
     write_csv_from_list,
     append_row_to_csv,
@@ -79,6 +81,7 @@ from .easy_csv import (
 from .easy_data_visualization import (
     plot_data,
     plot_box_plot,
+    plot_bar_chart,
 )
 from .easy_date_formatter import (
     dd_mm_yyyy,
@@ -154,6 +157,7 @@ from .easy_generator import (
     generate_qr_code,
     generate_slug,
     generate_uuid,
+    generate_passphrase,
 )
 from .easy_images import (
     convert_image,
@@ -277,6 +281,7 @@ from .easy_strings import (
     is_alphanumeric,
     is_palindrome,
     remove_extra_spaces,
+    to_camel_case,
     to_kebab_case,
     to_snake_case,
 )
