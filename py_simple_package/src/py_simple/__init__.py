@@ -73,8 +73,10 @@ from .easy_csv import (
     count_csv_rows,
     filter_csv_rows,
     get_csv_columns,
+    read_csv_column,
     read_csv_to_list,
     write_csv_from_list,
+    append_row_to_csv,
 )
 from .easy_data_visualization import (
     plot_data,
@@ -280,6 +282,7 @@ from .easy_strings import (
     is_alphanumeric,
     is_palindrome,
     remove_extra_spaces,
+    to_camel_case,
     to_kebab_case,
     to_snake_case,
 )
