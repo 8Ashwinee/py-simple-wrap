@@ -402,3 +402,82 @@ def generate_username(separator: str = "-") -> str:
     num = secrets.randbelow(90) + 10  # 2-digit number between 10 and 99
 
     return f"{adj}{separator}{noun}{separator}{num}"
+
+
+def generate_passphrase(words: int = 4, separator: str = "-") -> str:
+    """
+    Generates a random, easy-to-remember passphrase in one call, like
+    "Brave-river-Calm-lamp-47". It is the readable counterpart to
+    `generate_password`: words alternate between adjectives and nouns,
+    each one is randomly capitalized, and a 2-digit number is added at
+    the end, all picked with the `secrets` module.
+
+    For high-security needs, prefer `generate_password`, or ask for more
+    words: each extra word makes the passphrase stronger.
+
+    Args:
+        words (int, optional): Number of words in the passphrase, not
+            counting the number at the end. Defaults to `4`.
+        separator (str, optional): The character placed between words.
+            Defaults to `-`.
+
+    Returns:
+        str: The generated passphrase (e.g., "Brave-river-Calm-lamp-47").
+
+    Raises:
+        EasyGeneratorError: If `words` is less than 1.
+
+    Example:
+        === "The Py_simple Way"
+```python
+            from py_simple import generate_passphrase
+
+            passphrase = generate_passphrase(separator="_")
+```
+
+        === "The Traditional Way"
+```python
+            import secrets
+
+            adjectives = ["brave", "calm", "bright", "quick"]
+            nouns = ["river", "lamp", "cloud", "stone"]
+
+            words = []
+            for i in range(4):
+                word = secrets.choice(adjectives if i % 2 == 0 else nouns)
+                if secrets.randbelow(2):
+                    word = word.capitalize()
+                words.append(word)
+            words.append(str(secrets.randbelow(90) + 10))
+            passphrase = "_".join(words)
+```
+    """
+    if words < 1:
+        raise EasyGeneratorError(
+            "\n\n\nERROR: Passphrase must have at least 1 word"
+        ) from None
+
+    adjectives = [
+        "brave", "calm", "bright", "quick", "gentle",
+        "happy", "clever", "silent", "wild", "bold",
+        "lucky", "sunny", "swift", "proud", "fresh",
+        "cozy", "jolly", "eager", "humble", "noble",
+    ]
+    nouns = [
+        "river", "lamp", "cloud", "stone", "tiger",
+        "maple", "ocean", "forest", "rocket", "garden",
+        "falcon", "harbor", "island", "comet", "willow",
+        "pebble", "lantern", "meadow", "panda", "candle",
+    ]
+
+    passphrase_words = []
+    for i in range(words):
+        word = secrets.choice(adjectives if i % 2 == 0 else nouns)
+        if secrets.randbelow(2):
+            word = word.capitalize()
+        passphrase_words.append(word)
+
+    number = secrets.randbelow(90) + 10  # 2-digit number between 10 and 99
+    passphrase_words.append(str(number))
+
+    return separator.join(passphrase_words)

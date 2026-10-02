@@ -108,7 +108,7 @@ filterwarnings = [
 include-package-data = true
 
 [tool.setuptools.package-data]
-"*" = ["docs/*.md", "config_templates/*.yml"]
+"*" = ["docs/*.md", "config_templates/*.yml", "config_templates/*.txt"]
 
 [tool.ruff.lint]
 select = ["E", "F"]

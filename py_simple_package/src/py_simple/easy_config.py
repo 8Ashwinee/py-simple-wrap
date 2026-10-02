@@ -211,3 +211,74 @@ def read_env_file(file_path: str = ".env") -> dict[str, str]:
         return variables
     except Exception as e:
         raise EasyConfigError(f"\n\n\nERROR: {e}") from None
+
+
+def gitignore_config(at_root: bool = True) -> None:
+    """
+    Creates a starter .gitignore file for Python projects from a template.
+
+    The .gitignore is written to '.gitignore'. If the file already exists,
+    it is left alone. Any missing parent directories are created
+    automatically.
+
+    Args:
+        at_root (bool, optional): When True, the path is relative to the
+            current working directory. When False, the git repository
+            root is looked up and the .gitignore is placed there.
+            Defaults to True.
+
+    Returns:
+        None
+
+    Raises:
+        EasyConfigError: If the template cannot be read, the git repository
+            cannot be found, or the file cannot be written.
+
+    Example:
+        === "The Py_simple Way"
+            ```python
+            from py_simple import gitignore_config
+
+            gitignore_config()
+            ```
+
+        === "The Traditional Way"
+            ```python
+            template = \"\"\"# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables
+.env
+\"\"\"
+            with open(".gitignore", "w", encoding="utf-8") as f:
+                f.write(template)
+            ```
+    """
+    try:
+        if at_root:
+            gitignore_path = ".gitignore"
+        else:
+            import git
+
+            git_repo = git.Repo(os.getcwd(), search_parent_directories=True)
+            git_root = git_repo.git.rev_parse("--show-toplevel")
+            gitignore_path = f"{git_root}/.gitignore"
+
+        if not os.path.exists(gitignore_path):
+            template_path = (
+                files("py_simple") / "config_templates" / "gitignore-template.txt"
+            )
+            with template_path.open(encoding="utf-8") as f:
+                template = f.read()
+            parent_dir = os.path.dirname(gitignore_path)
+            if parent_dir:
+                os.makedirs(parent_dir, exist_ok=True)
+            with open(gitignore_path, "w", encoding="utf-8") as f:
+                f.write(template)
+    except Exception as e:
+        raise EasyConfigError(f"\n\n\nERROR: {e}") from None

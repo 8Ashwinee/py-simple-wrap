@@ -16,7 +16,7 @@
  
 [![PyPI](https://img.shields.io/pypi/v/py-simple-wrap?style=flat-square&logo=pypi&logoColor=white&color=3775A9)](https://pypi.org/project/py-simple-wrap/)
 [![Tests](https://img.shields.io/github/actions/workflow/status/sara-czasak/py-simple-wrap/tests.yml?style=flat-square&logo=github&label=tests)](https://github.com/sara-czasak/py-simple-wrap/actions/workflows/tests.yml)
-[![Contributors](https://img.shields.io/badge/contributors-68-orange?style=flat-square)](CONTRIBUTORS.md)
+[![Contributors](https://img.shields.io/badge/contributors-70-orange?style=flat-square)](CONTRIBUTORS.md)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/py-simple-wrap?period=total&units=NONE&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/py-simple-wrap)
 [![License](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](LICENSE.md)
 [![Discord](https://img.shields.io/discord/1533803449895092245?style=flat-square&logo=discord&logoColor=white&label=discord&color=5865F2)](https://discord.gg/Ge5HnVw2p)
@@ -75,6 +75,12 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
       </a>
     </td>
     <td align="center" valign="top" width="14.28%">
+      <a href="https://github.com/dave123981">
+        <img src="https://github.com/dave123981.png" width="100px;" alt="David King"/><br />
+        <sub><b>David King</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/gaoharimran29-glitch">
         <img src="https://github.com/gaoharimran29-glitch.png" width="100px;" alt="Gaohar Imran"/><br />
         <sub><b>Gaohar Imran</b></sub>
@@ -98,14 +104,14 @@ py-simple-wrap is a beginner-friendly Python toolbox — simple, intuitive funct
         <sub><b>Sara Czasak</b></sub>
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/VidyavathiGK">
         <img src="https://github.com/VidyavathiGK.png" width="100px;" alt="Vidyavathi GK"/><br />
         <sub><b>Vidyavathi GK</b></sub>
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="top" width="14.28%">
       <a href="https://github.com/Onion0121">
         <img src="https://github.com/Onion0121.png" width="100px;" alt="Yassin Azzouzi"/><br />
@@ -185,6 +191,6 @@ gets built next. **[Take the 2-minute survey →](https://docs.google.com/forms/
 
 **[Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [License](LICENSE.md)**
  
-<sub>Built for beginners, grown by 60+ contributors ✨</sub>
+<sub>Built for beginners, grown by 70+ contributors ✨</sub>
  
 </div>
