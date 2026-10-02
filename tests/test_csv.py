@@ -210,7 +210,6 @@ class TestFilterCsvRows:
             filter_csv_rows(str(csv_file), column="City", value="Nowhere")
 
 
- add-easy-data-visualization-function
 class TestAppendRowToCsv:
     def test_append_dict_row(self, tmp_path):
         csv_file = tmp_path / "people.csv"
@@ -237,6 +236,13 @@ class TestAppendRowToCsv:
             append_row_to_csv(str(missing_file), {"Name": "Charlie", "Age": "29"})
 
     def test_append_empty_file_raises_value_error(self, tmp_path):
+        empty_file = tmp_path / "empty.csv"
+        empty_file.write_text("", encoding="utf-8")
+
+        with pytest.raises(ValueError):
+            append_row_to_csv(str(empty_file), {"Name": "Charlie", "Age": "29"})
+
+
 class TestReadCsvColumn:
     def test_read_csv_column_values(self, tmp_path):
         csv_file = tmp_path / "people.csv"
@@ -294,13 +300,10 @@ class TestReadCsvColumn:
             read_csv_column(str(missing_file), "Name")
 
     def test_read_csv_column_empty_file_raises_value_error(self, tmp_path):
-      main
         empty_file = tmp_path / "empty.csv"
         empty_file.write_text("", encoding="utf-8")
 
         with pytest.raises(ValueError):
-add-easy-data-visualization-function
-            append_row_to_csv(str(empty_file), {"Name": "Charlie", "Age": "29"})
             read_csv_column(str(empty_file), "Name")
 
     def test_read_csv_column_missing_column_raises_value_error(self, tmp_path):
@@ -323,4 +326,3 @@ add-easy-data-visualization-function
 
         result = read_csv_column(str(csv_file), "Role")
         assert result == ["Engineer", ""]
-        main
