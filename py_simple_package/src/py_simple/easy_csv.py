@@ -297,7 +297,7 @@ def filter_csv_rows(
 
     headers = list(all_rows[0].keys())
     return [[row[h] for h in headers] for row in filtered]
- add-easy-data-visualization-function
+
 def append_row_to_csv(
     filepath: str,
     row: dict[str, Any] | list[Any],
