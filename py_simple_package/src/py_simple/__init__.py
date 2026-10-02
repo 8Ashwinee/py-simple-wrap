@@ -76,6 +76,7 @@ from .easy_csv import (
     read_csv_column,
     read_csv_to_list,
     write_csv_from_list,
+    append_row_to_csv,
 )
 from .easy_data_visualization import (
     plot_data,
