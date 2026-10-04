@@ -159,6 +159,22 @@ def test_plot_data_single_chart_fills_figure_width():
     plt.close(fig)
 
 
+def test_plot_data_removes_unused_subplot_slots(monkeypatch):
+    original_subplots = plt.subplots
+
+    def subplots_with_extra_axis(*args, **kwargs):
+        return original_subplots(1, 2, squeeze=False)
+
+    monkeypatch.setattr(plt, "subplots", subplots_with_extra_axis)
+
+    plot_data([1, 2, 3], [4, 5, 6])
+
+    fig = plt.gcf()
+    assert len(fig.axes) == 1
+    assert fig.axes[0].get_title() == "Scatter plot"
+    plt.close(fig)
+
+
 # --- Tests for plot_heatmap ---
 
 
