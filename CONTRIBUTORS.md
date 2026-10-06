@@ -380,6 +380,12 @@ Every tile below is a real person who showed up for this project. 💛
         <sub><b>veligetisamanvi</b></sub>
       </a>
     </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/G-Glitch404">
+        <img src="https://github.com/G-Glitch404.png" width="100px;" alt="Yousif Wael"/><br />
+        <sub><b>Yousif Wael</b></sub>
+      </a>
+    </td>
   </tr>
 </table>
 
@@ -716,6 +722,12 @@ Every tile below is a real person who showed up for this project. 💛
       <a href="https://github.com/veligetisamanvi">
         <img src="https://github.com/veligetisamanvi.png" width="100px;" alt="veligetisamanvi"/><br />
         <sub><b>veligetisamanvi</b></sub>
+      </a>
+    </td>
+    <td align="center" valign="top" width="8.6%">
+      <a href="https://github.com/G-Glitch404">
+        <img src="https://github.com/G-Glitch404.png" width="100px;" alt="Yousif Wael"/><br />
+        <sub><b>Yousif Wael</b></sub>
       </a>
     </td>
   </tr>
@@ -1102,6 +1114,7 @@ The Module Magicians. The Code Conjurers. The Test Sentinels. The Lore Keepers. 
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/veligetisamanvi"><img src="https://github.com/veligetisamanvi.png?s=80" width="80px;" alt="veligetisamanvi"/><br /><sub><b>veligetisamanvi</b></sub></a><br /><a href="https://github.com/sara-czasak/py_simple/commits?author=veligetisamanvi" title="Docs">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/G-Glitch404"><img src="https://github.com/G-Glitch404.png?s=80" width="80px;" alt="Yousif Wael"/><br /><sub><b>Yousif Wael</b></sub></a><br /><a href="https://github.com/sara-czasak/py_simple/commits?author=G-Glitch404" title="Code">💻</a> <a href="https://github.com/sara-czasak/py_simple/commits?author=G-Glitch404" title="Tests">🧪</a></td>
     </tr>
   </tbody>
 </table>

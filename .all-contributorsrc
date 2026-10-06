@@ -760,6 +760,16 @@
       "contributions": [
         "documentation"
       ]
+    },
+    {
+      "login": "G-Glitch404",
+      "name": "Yousif Wael",
+      "avatar_url": "https://github.com/G-Glitch404.png",
+      "profile": "https://github.com/G-Glitch404",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ]
 }
